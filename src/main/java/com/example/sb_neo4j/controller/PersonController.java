@@ -5,6 +5,8 @@ import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import com.example.sb_neo4j.request.CreateRelationDTO;
 import com.example.sb_neo4j.service.PersonService;
+import org.apiguardian.api.API;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class PersonController {
+    @Autowired
     private final PersonService personService;
 
     public PersonController(PersonService personService){

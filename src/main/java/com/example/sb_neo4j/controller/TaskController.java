@@ -3,6 +3,7 @@ package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/Task")
 public class TaskController {
+    @Autowired
     private final TaskService taskService;
 
     public TaskController(TaskService taskService) {

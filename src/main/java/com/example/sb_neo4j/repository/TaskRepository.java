@@ -6,5 +6,5 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import java.util.Optional;
 
 public interface TaskRepository extends Neo4jRepository<Task, Long> {
-    Optional<Task> findTaskbyHeader(String header);
+    Optional<Task> findTaskByTitle(String title);
 }
