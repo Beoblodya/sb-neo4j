@@ -1,4 +1,4 @@
-package com.example.sb_neo4j.models;
+package com.example.sb_neo4j.model;
 
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.example.sb_neo4j.requests;
+package com.example.sb_neo4j.request;
 
 public class CreateRelationDTO {
 

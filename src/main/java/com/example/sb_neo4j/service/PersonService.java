@@ -1,10 +1,10 @@
-package com.example.sb_neo4j.services;
+package com.example.sb_neo4j.service;
 
 
 import com.example.sb_neo4j.QueryResults.PersonRelationQueryResult;
-import com.example.sb_neo4j.models.Person;
-import com.example.sb_neo4j.repositories.PersonRepository;
-import com.example.sb_neo4j.requests.CreatePersonRequestOrDTO;
+import com.example.sb_neo4j.model.Person;
+import com.example.sb_neo4j.repository.PersonRepository;
+import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

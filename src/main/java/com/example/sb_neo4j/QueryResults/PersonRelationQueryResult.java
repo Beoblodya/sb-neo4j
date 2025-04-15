@@ -1,6 +1,6 @@
 package com.example.sb_neo4j.QueryResults;
 
-import com.example.sb_neo4j.models.Person;
+import com.example.sb_neo4j.model.Person;
 
 public class PersonRelationQueryResult {
     private Person person1;

@@ -1,9 +1,8 @@
-package com.example.sb_neo4j.controllers;
+package com.example.sb_neo4j.controller;
 
 
-import com.example.sb_neo4j.models.Task;
-import com.example.sb_neo4j.models.User;
-import com.example.sb_neo4j.services.TaskService;
+import com.example.sb_neo4j.model.Task;
+import com.example.sb_neo4j.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

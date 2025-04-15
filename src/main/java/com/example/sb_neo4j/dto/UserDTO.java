@@ -1,12 +1,12 @@
-package com.example.sb_neo4j.requests;
+package com.example.sb_neo4j.dto;
 
-public class CreateUserRequest {
+public class UserDTO {
 
     private String name;
 
     private String role;
 
-    public CreateUserRequest(String name, String role) {
+    public UserDTO(String name, String role) {
         this.name = name;
         this.role = role;
     }

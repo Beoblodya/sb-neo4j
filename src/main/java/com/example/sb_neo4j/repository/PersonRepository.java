@@ -1,7 +1,7 @@
-package com.example.sb_neo4j.repositories;
+package com.example.sb_neo4j.repository;
 
 import com.example.sb_neo4j.QueryResults.PersonRelationQueryResult;
-import com.example.sb_neo4j.models.Person;
+import com.example.sb_neo4j.model.Person;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 

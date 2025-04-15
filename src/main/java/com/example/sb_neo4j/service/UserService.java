@@ -1,9 +1,9 @@
-package com.example.sb_neo4j.services;
+package com.example.sb_neo4j.service;
 
 
-import com.example.sb_neo4j.models.User;
-import com.example.sb_neo4j.repositories.UserRepository;
-import com.example.sb_neo4j.requests.CreateUserRequest;
+import com.example.sb_neo4j.model.User;
+import com.example.sb_neo4j.repository.UserRepository;
+import com.example.sb_neo4j.request.CreateUserRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

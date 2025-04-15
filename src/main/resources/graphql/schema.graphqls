@@ -1,0 +1,54 @@
+type Query{
+    teams: [Team]
+    leaderOfTeam(id: ID): TeamLead
+    tasksOfPerformer(id: ID): [Task]
+    competences: [Competence]
+}
+
+type User {
+    id: ID
+}
+
+type Performer {
+    id: ID
+    name: String
+    team: [Team]
+    skills: [Competence]
+    tasks: [Task]
+}
+
+type TeamLead {
+    id: ID
+    name: String
+    team: Team
+    subordinates: [Performer]
+    skills: [Competence]
+    tasks: [Task]
+}
+
+type Team {
+    id: ID
+    name: String
+    leader: TeamLead
+    members: [Performer]
+}
+
+type Task{
+    id: ID
+    title: String
+    skills_required: [Competence]
+    status: TaskStatus
+}
+
+enum TaskStatus{
+    CREATED
+    ASSIGNED
+    AT_WORK
+    CHECKING
+    COMPLETED
+}
+
+type Competence{
+    id: ID
+    title: String
+}

@@ -1,8 +1,8 @@
-package com.example.sb_neo4j.services;
+package com.example.sb_neo4j.service;
 
 
-import com.example.sb_neo4j.models.Task;
-import com.example.sb_neo4j.repositories.TaskRepository;
+import com.example.sb_neo4j.model.Task;
+import com.example.sb_neo4j.repository.TaskRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
