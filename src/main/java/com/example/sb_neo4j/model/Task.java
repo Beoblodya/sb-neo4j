@@ -9,7 +9,7 @@ public class Task {
 
     @Id @GeneratedValue
     private long id;
-    private String header;
+    private String title;
     private String content;
     private String status;
 
@@ -40,11 +40,11 @@ public class Task {
         this.status = status;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getHeader() {
-        return header;
+    public String getTitle() {
+        return title;
     }
 }
