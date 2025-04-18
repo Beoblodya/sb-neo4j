@@ -36,12 +36,26 @@ public class GraphQLController {
             @PathVariable String repo,
             @PathVariable int projectNumber
     ) {
-        return service.getProjectIssues(owner, repo, projectNumber)
+        return service.getIssues(owner, repo, projectNumber)
                 .map(ResponseEntity::ok) // Успешный результат: HTTP 200 OK
                 .defaultIfEmpty(ResponseEntity.notFound().build()) // Если Mono пустой: HTTP 404 Not Found
                 .onErrorResume(e -> { // Обработка ошибок
                     System.err.println("Error fetching issues: " + e.getMessage());
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()); // HTTP 500
+                });
+    }
+
+    @GetMapping("/get-collaborators/{owner}/{repo}")
+    public Mono<ResponseEntity<Map>> getCollaborators(
+            @PathVariable String owner,
+            @PathVariable String repo
+    ){
+        return service.getCollaborators(owner, repo)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build())
+                .onErrorResume(e -> {
+                    System.out.println("Error fetching collaborators: "+e.getMessage());
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
 }

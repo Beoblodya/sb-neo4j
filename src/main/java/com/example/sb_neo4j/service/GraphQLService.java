@@ -13,16 +13,38 @@ public class GraphQLService {
     private final WebClient webClient;
 
     public GraphQLService(@Value("${github.token}") String githubToken) {
-//    public GraphQLService() {
             this.webClient = WebClient.builder()
                 .baseUrl("https://api.github.com/graphql")
                 .defaultHeader("Authorization", "Bearer "+githubToken)
                 .build();
     }
 
-    public Mono<Map> getProjectIssues(String owner, String repo, int projectNumber) {
+    public Mono<Map> getCollaborators(String owner, String repo){
         String query = """
-                query GetProjectV2Items($owner: String!, $repo: String!, $projectNumber: Int!) {
+                    query GetProjectV2Items($owner: String!, $repo: String!) {
+                      repository(owner: $owner, name: $repo) {
+                        collaborators(first: 100) {
+                          edges {
+                            node {
+                              login
+                              name
+                            }
+                            permission
+                          }
+                        }
+                      }
+                    }
+                    """;
+        Map<String, Object> variables = Map.of(
+                "owner", owner,
+                "repo", repo
+        );
+        return executeQuery(query, variables);
+    }
+
+    public Mono<Map> getIssues(String owner, String repo, int projectNumber){
+        String query = """
+                    query GetProjectV2Items($owner: String!, $repo: String!, $projectNumber: Int!) {
                        repository(owner: $owner, name: $repo) {
                          projectV2(number: $projectNumber) {
                            title
@@ -54,19 +76,20 @@ public class GraphQLService {
                          }
                        }
                      }
-            """;
-
+                    """;
         Map<String, Object> variables = Map.of(
                 "owner", owner,
                 "repo", repo,
                 "projectNumber", projectNumber
         );
+        return executeQuery(query, variables);
+    }
 
+    private Mono<Map> executeQuery(String query, Map<String, Object> variables){
         Map<String, Object> requestBody = Map.of(
                 "query", query,
                 "variables", variables
         );
-
         return webClient.post()
                 .bodyValue(requestBody)
                 .retrieve()
