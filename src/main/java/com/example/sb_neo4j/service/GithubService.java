@@ -8,11 +8,11 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @Service
-public class GraphQLService {
+public class GithubService {
 
     private final WebClient webClient;
 
-    public GraphQLService(@Value("${github.token}") String githubToken) {
+    public GithubService(@Value("${github.token}") String githubToken) {
             this.webClient = WebClient.builder()
                 .baseUrl("https://api.github.com/graphql")
 //                .defaultHeader("Authorization", "Bearer "+githubToken)

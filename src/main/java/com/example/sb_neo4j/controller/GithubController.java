@@ -1,7 +1,7 @@
 package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.dto.TaskDTO;
-import com.example.sb_neo4j.service.GraphQLService;
+import com.example.sb_neo4j.service.GithubService;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GraphQLController {
+public class GithubController {
 
-    private final GraphQLService service;
+    private final GithubService service;
 
-    public GraphQLController(GraphQLService service) {
+    public GithubController(GithubService service) {
         this.service = service;
     }
 
@@ -27,15 +27,14 @@ public class GraphQLController {
         return new ArrayList<TaskDTO>();
     }
 
-
     @GetMapping("/get-issues/{owner}/{repo}/{projectNumber}")
     public Mono<ResponseEntity<Map>> getIssues(
             @PathVariable String owner,
             @PathVariable String repo,
             @PathVariable int projectNumber,
-            @RequestBody String patToken
+            @RequestHeader("Authorization") String authHeader
     ) {
-        return service.getIssues(owner, repo, projectNumber, patToken)
+        return service.getIssues(owner, repo, projectNumber, authHeader.replace("Bearer ", ""))
                 .map(ResponseEntity::ok) // Успешный результат: HTTP 200 OK
                 .defaultIfEmpty(ResponseEntity.notFound().build()) // Если Mono пустой: HTTP 404 Not Found
                 .onErrorResume(e -> { // Обработка ошибок
@@ -48,9 +47,9 @@ public class GraphQLController {
     public Mono<ResponseEntity<Map>> getCollaborators(
             @PathVariable String owner,
             @PathVariable String repo,
-            @RequestBody String patToken
+            @RequestHeader("Authorization") String authHeader
     ){
-        return service.getCollaborators(owner, repo, patToken)
+        return service.getCollaborators(owner, repo, authHeader.replace("Bearer ", ""))
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
                 .onErrorResume(e -> {
