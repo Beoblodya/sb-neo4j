@@ -2,7 +2,6 @@ package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.dto.TaskDTO;
 import com.example.sb_neo4j.service.GraphQLService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +16,26 @@ import java.util.Map;
 @Controller
 public class GraphQLController {
 
-    @Autowired
-    private GraphQLService service;
+    private final GraphQLService service;
+
+    public GraphQLController(GraphQLService service) {
+        this.service = service;
+    }
 
     @QueryMapping
     public List<TaskDTO> tasksOfUser(){
         return new ArrayList<TaskDTO>();
     }
 
-    @PostMapping("api/v1/{token}")
-    public void setParams(@RequestParam String token){
-//        service.setToken(token);
-    }
 
     @GetMapping("/get-issues/{owner}/{repo}/{projectNumber}")
     public Mono<ResponseEntity<Map>> getIssues(
             @PathVariable String owner,
             @PathVariable String repo,
-            @PathVariable int projectNumber
+            @PathVariable int projectNumber,
+            @RequestBody String patToken
     ) {
-        return service.getIssues(owner, repo, projectNumber)
+        return service.getIssues(owner, repo, projectNumber, patToken)
                 .map(ResponseEntity::ok) // Успешный результат: HTTP 200 OK
                 .defaultIfEmpty(ResponseEntity.notFound().build()) // Если Mono пустой: HTTP 404 Not Found
                 .onErrorResume(e -> { // Обработка ошибок
@@ -48,9 +47,10 @@ public class GraphQLController {
     @GetMapping("/get-collaborators/{owner}/{repo}")
     public Mono<ResponseEntity<Map>> getCollaborators(
             @PathVariable String owner,
-            @PathVariable String repo
+            @PathVariable String repo,
+            @RequestBody String patToken
     ){
-        return service.getCollaborators(owner, repo)
+        return service.getCollaborators(owner, repo, patToken)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build())
                 .onErrorResume(e -> {

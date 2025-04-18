@@ -15,11 +15,11 @@ public class GraphQLService {
     public GraphQLService(@Value("${github.token}") String githubToken) {
             this.webClient = WebClient.builder()
                 .baseUrl("https://api.github.com/graphql")
-                .defaultHeader("Authorization", "Bearer "+githubToken)
+//                .defaultHeader("Authorization", "Bearer "+githubToken)
                 .build();
     }
 
-    public Mono<Map> getCollaborators(String owner, String repo){
+    public Mono<Map> getCollaborators(String owner, String repo, String patToken){
         String query = """
                     query GetProjectV2Items($owner: String!, $repo: String!) {
                       repository(owner: $owner, name: $repo) {
@@ -39,10 +39,10 @@ public class GraphQLService {
                 "owner", owner,
                 "repo", repo
         );
-        return executeQuery(query, variables);
+        return executeQuery(query, variables, patToken);
     }
 
-    public Mono<Map> getIssues(String owner, String repo, int projectNumber){
+    public Mono<Map> getIssues(String owner, String repo, int projectNumber, String patToken){
         String query = """
                     query GetProjectV2Items($owner: String!, $repo: String!, $projectNumber: Int!) {
                        repository(owner: $owner, name: $repo) {
@@ -82,16 +82,17 @@ public class GraphQLService {
                 "repo", repo,
                 "projectNumber", projectNumber
         );
-        return executeQuery(query, variables);
+        return executeQuery(query, variables, patToken);
     }
 
-    private Mono<Map> executeQuery(String query, Map<String, Object> variables){
+    private Mono<Map> executeQuery(String query, Map<String, Object> variables, String patToken){
         Map<String, Object> requestBody = Map.of(
                 "query", query,
                 "variables", variables
         );
         return webClient.post()
                 .bodyValue(requestBody)
+                .header("Authorization", "Bearer "+patToken)
                 .retrieve()
                 .bodyToMono(Map.class);
     }
