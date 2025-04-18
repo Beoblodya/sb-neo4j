@@ -6,8 +6,11 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 public interface PersonRepository extends Neo4jRepository<Person, Long> {
-
-    @Query("MATCH (person1:Person), (person2:Person) Where person1.name = $name1 AND person2.name = $name2"+
-    "CREATE (person1)-[:ENROLLED_IN]->(person2) RETURN person1, person2")
+    // TODO подумать как вернуть
+    @Query("MATCH (p1:Person {name: $name1}) " +
+            "MATCH (p2:Person {name: $name2}) " +
+            "WHERE NOT (p1)-[:ENROLLED_IN]->(p2) " +
+            "CREATE (p1)-[r:ENROLLED_IN]->(p2) " +
+            "RETURN p1 as person1, p2 as person2")
     PersonRelationQueryResult SetRelationshipStatus(String name1, String name2);
 }

@@ -39,9 +39,9 @@ public class PersonController {
 
     @PostMapping("/relation")
     public ResponseEntity<CreateRelationDTO> setRelation(@RequestBody CreateRelationDTO request){
-        PersonRelationQueryResult personRelationQueryResult = personService.setRelation(request.getName1(), request.getName1());
+        PersonRelationQueryResult personRelationQueryResult = personService.setRelation(request.getName1(), request.getName2());
 
-        CreateRelationDTO responseRelation = new CreateRelationDTO(personRelationQueryResult.getPerson1().getName(), personRelationQueryResult.getPerson2().getName());
+        CreateRelationDTO responseRelation = new CreateRelationDTO(personRelationQueryResult.getPerson1(), personRelationQueryResult.getPerson2());
         return new ResponseEntity<>(responseRelation, HttpStatus.OK);
     }
 }
