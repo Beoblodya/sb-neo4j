@@ -1,7 +1,10 @@
 package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.dto.TaskDTO;
+import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.service.GithubService;
+import com.example.sb_neo4j.util.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,11 @@ import java.util.Map;
 public class GithubController {
 
     private final GithubService service;
+    private final JsonParser parser;
 
-    public GithubController(GithubService service) {
+    public GithubController(GithubService service, JsonParser parser) {
         this.service = service;
+        this.parser = parser;
     }
 
     @QueryMapping
@@ -56,5 +61,10 @@ public class GithubController {
                     System.out.println("Error fetching collaborators: "+e.getMessage());
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
+    }
+
+    @PostMapping("/testsss")
+    public List<TaskDTO> parseJSON(@RequestBody String json) throws JsonProcessingException {
+        return parser.parseIssues(json);
     }
 }
