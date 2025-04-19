@@ -2,13 +2,12 @@ package com.example.sb_neo4j.controller;
 
 
 import com.example.sb_neo4j.model.Task;
+import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +26,13 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
-    
+    @PostMapping("/create")
+    public ResponseEntity<CreateTaskRequest> taskCreate(@RequestBody CreateTaskRequest request){
+        Task task = taskService.createTask(request);
+
+        CreateTaskRequest responseTask = new CreateTaskRequest(task.getTitle(), task.getContent(), task.getStatus());
+
+        return new ResponseEntity<>(responseTask, HttpStatus.CREATED);
+        //TODO добавлять из git
+    }
 }

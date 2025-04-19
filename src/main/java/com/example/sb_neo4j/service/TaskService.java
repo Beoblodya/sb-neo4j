@@ -3,6 +3,7 @@ package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.repository.TaskRepository;
+import com.example.sb_neo4j.request.CreateTaskRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,15 @@ public class TaskService {
 
     public List<Task> getAllTasks (){
         return taskRepository.findAll();
+    }
+
+    public Task createTask(CreateTaskRequest createTaskRequest){
+        Task task = new Task();
+        task.setContent(createTaskRequest.getContent());
+        task.setTitle(createTaskRequest.getTitle());
+        task.setStatus(createTaskRequest.getStatus());
+        taskRepository.save(task);
+        return task;
     }
 
     public Task findTaskByTitle(String header) {
