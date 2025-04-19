@@ -1,6 +1,8 @@
 package com.example.sb_neo4j.controller;
 
 
+import com.example.sb_neo4j.QueryResults.TaskQueryResult;
+import com.example.sb_neo4j.dto.TaskAssignmentDTO;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
@@ -34,5 +36,13 @@ public class TaskController {
 
         return new ResponseEntity<>(responseTask, HttpStatus.CREATED);
         //TODO добавлять из git
+    }
+
+    @PostMapping("/assign")
+    public ResponseEntity<TaskAssignmentDTO> assign(@RequestBody TaskAssignmentDTO request){
+        TaskQueryResult taskQueryResult = taskService.assign(request.getName(), request.getTitle());
+
+        TaskAssignmentDTO response = new TaskAssignmentDTO(taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getTitle());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

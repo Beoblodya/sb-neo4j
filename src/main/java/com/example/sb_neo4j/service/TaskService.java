@@ -1,6 +1,7 @@
 package com.example.sb_neo4j.service;
 
 
+import com.example.sb_neo4j.QueryResults.TaskQueryResult;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateTaskRequest;
@@ -31,6 +32,10 @@ public class TaskService {
         task.setStatus(createTaskRequest.getStatus());
         taskRepository.save(task);
         return task;
+    }
+
+    public TaskQueryResult assign(String name, String title){
+        return taskRepository.assign(name, title);
     }
 
     public Task findTaskByTitle(String header) {
