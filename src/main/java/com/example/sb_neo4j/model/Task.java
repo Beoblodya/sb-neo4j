@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 public class Task {
 
     @Id @GeneratedValue
-    private long id;
+    private Long id;
     private String title;
     private String content;
     private String status;
