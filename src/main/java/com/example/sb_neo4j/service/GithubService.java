@@ -55,20 +55,6 @@ public class GithubService {
                                    title
                                    body
                                    state
-                                   number
-                                   author {
-                                     login
-                                     }
-                                     assignees(first: 10) {
-                                         nodes {
-                                         login
-                                         }
-                                     }
-                                     participants(first: 10) {
-                                         nodes {
-                                         login
-                                         }
-                                     }
                                  }
                                }
                              }
