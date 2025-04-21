@@ -27,7 +27,6 @@ public class GithubService {
                           edges {
                             node {
                               login
-                              name
                             }
                             permission
                           }

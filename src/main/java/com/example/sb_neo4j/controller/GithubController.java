@@ -1,5 +1,6 @@
 package com.example.sb_neo4j.controller;
 
+import com.example.sb_neo4j.dto.PersonDTO;
 import com.example.sb_neo4j.dto.TaskDTO;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.service.GithubService;
@@ -61,13 +62,22 @@ public class GithubController {
     }
 
     @GetMapping("/get-collaborators/{owner}/{repo}")
-    public Mono<ResponseEntity<Map>> getCollaborators(
+    public Mono<ResponseEntity<List<PersonDTO>>> getCollaborators(
             @PathVariable String owner,
             @PathVariable String repo,
             @RequestHeader("Authorization") String authHeader
     ){
         return service.getCollaborators(owner, repo, authHeader.replace("Bearer ", ""))
-                .map(ResponseEntity::ok)
+                .flatMap((response) ->{
+                    try{
+                        ObjectMapper mapper = new ObjectMapper();
+                        String json = mapper.writeValueAsString(response);
+                        List<PersonDTO> people = parser.parseCollaborators(json);
+                        return Mono.just(ResponseEntity.ok(people));
+                    } catch (JsonProcessingException e) {
+                        return Mono.error(e);
+                    }
+                })
                 .defaultIfEmpty(ResponseEntity.notFound().build())
                 .onErrorResume(e -> {
                     System.out.println("Error fetching collaborators: "+e.getMessage());
