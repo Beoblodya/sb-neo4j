@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("api/v1/GithubAPI")
 public class GithubController {
 
     private final GithubService service;
