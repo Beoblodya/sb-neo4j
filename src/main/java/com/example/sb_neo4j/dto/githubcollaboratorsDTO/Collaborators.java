@@ -2,15 +2,17 @@ package com.example.sb_neo4j.dto.githubcollaboratorsDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Collaborators {
-    @JsonProperty("collaborators")
-    Edges edges;
+import java.util.List;
 
-    public Edges getEdges() {
+public class Collaborators {
+    @JsonProperty("edges")
+    List<Edge> edges;
+
+    public List<Edge> getEdges() {
         return edges;
     }
 
-    public void setEdges(Edges edges) {
+    public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
 }

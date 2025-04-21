@@ -2,7 +2,7 @@ package com.example.sb_neo4j.dto.githubcollaboratorsDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EdgeItem {
+public class Edge {
     @JsonProperty("node")
     Node node;
     @JsonProperty("permission")
