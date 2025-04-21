@@ -1,7 +1,6 @@
 package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.repository.TaskRepository;
-import com.example.sb_neo4j.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 

@@ -1,7 +1,5 @@
 package com.example.sb_neo4j.dto;
 
-import java.util.List;
-
 public record TaskDTO(
         String title,
         String description,

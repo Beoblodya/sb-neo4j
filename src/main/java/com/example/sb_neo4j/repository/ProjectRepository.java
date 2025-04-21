@@ -18,7 +18,7 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
             "CREATE (project)-[:CONTAINS]->(task) RETURN project, task")
     ProjectTaskQueryResult contains(String projectTitle, String taskTitle);
 
-    @Query("MATCH (project:Project), (user:User) WHERE project.title = $projectTitle AND user.name = $name " +
-            "CREATE (project)-[:MEMBER]->(user) RETURN project, user")
+    @Query("MATCH (project:Project), (person:Person) WHERE project.title = $projectTitle AND person.name = $name " +
+            "CREATE (project)-[:MEMBER]->(person) RETURN project, person")
     ProjectPersonQueryResult member(String projectTitle, String name);
 }
