@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY . .
-RUN ./mvnw clear package -DskipTests
+RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
-CMD ["java", "-jar","sb-neo4j"]
+CMD ["java", "-jar","target/sb-neo4j-0.0.1-SNAPSHOT.jar"]
