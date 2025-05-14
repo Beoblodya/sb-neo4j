@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/Project")
 public class ProjectController {
+    //Контроллер для проектов
     @Autowired
     private final ProjectService projectService;
 
@@ -29,11 +30,16 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    //Получение всех проектов
     @GetMapping("/getAll")
     public ResponseEntity<List<Project>> getAllProjects(){
         return new ResponseEntity<>(projectService.getAllProjects(), HttpStatus.OK);
     }
 
+
+    //Создание проектов команды в базе
+    //На вход json с названием
+    //На выход json с названием
     @PostMapping("/create")
     public ResponseEntity<CreateProjectRequest> createProject(@RequestBody CreateProjectRequest request){
         Project project = projectService.createProject(request);
@@ -44,6 +50,10 @@ public class ProjectController {
         //TODO добавлять из git
     }
 
+
+    //Создание связи между проектом и таском
+    //На вход json с названием проекта и названием таска
+    //На выход json с названием проекта и названием таска
     @PostMapping("/contains")
     public ResponseEntity<ProjectTaskDTO> contains(@RequestBody ProjectTaskDTO request){
         ProjectTaskQueryResult projectTaskQueryResult = projectService.contains(request.getProjectTitle(), request.getTaskTitle());
@@ -52,6 +62,10 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+    //Создание связи между проектом и участником команды
+    //На вход json с названием проекта и именем
+    //На выход json с названием проекта и именем
     @PostMapping("/members")
     public ResponseEntity<ProjectPersonDTO> member(@RequestBody ProjectPersonDTO request){
         ProjectPersonQueryResult projectPersonQueryResult = projectService.member(request.getProjectTitle(), request.getName());

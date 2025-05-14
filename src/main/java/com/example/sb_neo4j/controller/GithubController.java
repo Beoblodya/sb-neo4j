@@ -30,11 +30,15 @@ public class GithubController {
         this.parser = parser;
     }
 
+    //Пока затычка
     @QueryMapping
     public List<TaskDTO> tasksOfUser(){
         return new ArrayList<TaskDTO>();
     }
 
+
+    //Получение тасков из гита
+    //Возвращает Mono с тасками
     @GetMapping("/get-issues/{owner}/{repo}/{projectNumber}")
     public Mono<ResponseEntity<List<TaskDTO>>> getIssues(
             @PathVariable String owner,
@@ -61,6 +65,9 @@ public class GithubController {
                 });
     }
 
+
+    //Получение юзеров из гита
+    //Возвращает Mono с юзерами
     @GetMapping("/get-collaborators/{owner}/{repo}")
     public Mono<ResponseEntity<List<PersonDTO>>> getCollaborators(
             @PathVariable String owner,

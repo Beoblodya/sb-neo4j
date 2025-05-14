@@ -1,7 +1,6 @@
 package com.example.sb_neo4j.service;
 
 
-import com.example.sb_neo4j.QueryResults.PersonRelationQueryResult;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
@@ -28,9 +27,5 @@ public class PersonService {
         person.setName(request.getName());
         personRepository.save(person);
         return person;
-    }
-
-    public PersonRelationQueryResult setRelation(String name1, String name2){
-        return personRepository.SetRelationshipStatus(name1, name2);
     }
 }

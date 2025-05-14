@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/Task")
 public class TaskController {
+    //Контроллер для тасков
     @Autowired
     private final TaskService taskService;
 
@@ -23,11 +24,16 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+
+    //Получение всех тасков
     @GetMapping("/getAll")
     public ResponseEntity<List<Task>> getAllTask(){
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
+    //Создание таска в базе
+    //На вход json с названием
+    //На выход json с названием
     @PostMapping("/create")
     public ResponseEntity<CreateTaskRequest> taskCreate(@RequestBody CreateTaskRequest request){
         Task task = taskService.createTask(request);
@@ -35,9 +41,12 @@ public class TaskController {
         CreateTaskRequest responseTask = new CreateTaskRequest(task.getTitle(), task.getContent(), task.getStatus());
 
         return new ResponseEntity<>(responseTask, HttpStatus.CREATED);
-        //TODO добавлять из git
     }
 
+
+    //Создание связи между таском и участником
+    //На вход json с именем участника и названием таска
+    //На выход json с именем участник и названием таска
     @PostMapping("/assign")
     public ResponseEntity<TaskAssignmentDTO> assign(@RequestBody TaskAssignmentDTO request){
         TaskQueryResult taskQueryResult = taskService.assign(request.getName(), request.getTitle());
