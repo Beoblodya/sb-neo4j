@@ -45,4 +45,11 @@ public class TaskController {
         TaskAssignmentDTO response = new TaskAssignmentDTO(taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    public ResponseEntity<TaskAssignmentDTO> generated(@RequestBody TaskAssignmentDTO request){
+        TaskQueryResult taskQueryResult = taskService.generated(request.getName(), request.getTitle());
+
+        TaskAssignmentDTO response = new TaskAssignmentDTO(taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getTitle());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

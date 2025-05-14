@@ -38,6 +38,10 @@ public class TaskService {
         return taskRepository.assign(name, title);
     }
 
+    public TaskQueryResult generated(String name, String title){
+        return taskRepository.generated(name, title);
+    }
+
     public Task findTaskByTitle(String header) {
 
         return taskRepository.findTaskByTitle(header)

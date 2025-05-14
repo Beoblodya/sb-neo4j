@@ -15,4 +15,8 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
     @Query("MATCH (person:Person), (task:Task) WHERE person.name = $name AND task.title = $title " +
             "CREATE (person)-[:ASSIGNED]->(task) RETURN person, task")
     TaskQueryResult assign(String name, String title);
+
+    @Query("MATCH (person:Person), (task:Task) WHERE person.name = $name AND task.title = $title " +
+            "CREATE (person)-[:GENERATED]->(task) RETURN person, task")
+    TaskQueryResult generated(String name, String title);
 }
