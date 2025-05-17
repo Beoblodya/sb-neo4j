@@ -25,6 +25,7 @@ public class PersonService {
     public Person createPerson(CreatePersonRequestOrDTO request){
         Person person = new Person();
         person.setName(request.getName());
+        person.setSkillSet(request.getSkillSet());
         personRepository.save(person);
         return person;
     }

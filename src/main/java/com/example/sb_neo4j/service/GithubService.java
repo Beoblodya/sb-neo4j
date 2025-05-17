@@ -12,10 +12,9 @@ public class GithubService {
 
     private final WebClient webClient;
 
-    public GithubService(@Value("${github.token}") String githubToken) {
+    public GithubService() {
             this.webClient = WebClient.builder()
                 .baseUrl("https://api.github.com/graphql")
-//                .defaultHeader("Authorization", "Bearer "+githubToken)
                 .build();
     }
 
