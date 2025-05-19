@@ -21,6 +21,7 @@ public class AIController {
     public AIController(AIService aiService) {
         this.aiService = aiService;
     }
+
     //мнение нейронки по связи задачи с исполнителем
     // вход - автоматический забор данных с бд
     // выход json {"assignments":  [ {"name": "<NAME>", "title": "<TITLE>"} ] }
