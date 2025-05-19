@@ -25,23 +25,26 @@ util/ - утилиты (парсер)
 docker compose up -d --build
 
 Примечание: Нейросетевая служба должна быть доступна по адресу http://127.0.0.1:5000/api/v1
-API Endpoints
-GitHub API
+```
 
+## API endpoints
+
+-**GitHub API**
+```bash
 GET /api/v1/GithubAPI/get-issues/{owner}/{repo}/{projectNumber}
 Получение задач из GitHub. Возвращает Mono с задачами.
 
 GET /api/v1/GithubAPI/get-collaborators/{owner}/{repo}
 Получение пользователей из GitHub. Возвращает Mono с пользователями.
+```
 
-Участники (Person)
-
+-**Участники (Person)**
+```bash
 GET /api/v1/Person/get
 Получение всех участников команды из базы.
 
 Output:
 json
-
     [
         {
             "name": "<NAME>",
@@ -62,9 +65,10 @@ json
     }
 
 Output: (аналогично input)
+```
 
-Проекты (Project)
-
+-**Проекты (Project)**
+```bash
 GET /api/v1/Project/getAll
 Получение всех проектов.
 
@@ -116,9 +120,10 @@ json
     }
 
     Output: (аналогично input)
+```
 
-Задачи (Task)
-
+-**Задачи (Task)**
+```bash
 GET /api/v1/Task/getAll
 Получение всех задач.
 
@@ -161,9 +166,10 @@ json
     }
 
 Output: (аналогично input)
+```
 
-AI Endpoints
-
+-**AI Endpoints**
+```bash
 GET /api/v1/AI/relations
 Распределение всех задач между исполнителями (от нейросети).
 
@@ -178,3 +184,4 @@ json
             }
         ]
     }
+```
