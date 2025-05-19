@@ -1,77 +1,76 @@
-Сервис работы с базой и получения данных с git
+# Сервис работы с базой и получения данных с Git
 
-По папкам:
+## Структура проекта
 
-controller - контроллеры
+controller/ - контроллеры
+dto/ - DTO (POJO для моделей)
+model/ - модели нодов в БД
+QueryResults/ - результаты запросов в БД (POJO)
+repository/ - репозитории
+request/ - запросы (POJO)
+service/ - сервисы
+util/ - утилиты (парсер)
 
-dto - дтошки. pojo для моделей
 
-model - модели нодов в бд
+## Модули
 
-QueryResults - результаты запросов в бд. pojo
+- **Github** - всё относящееся к получению данных с Git
+- **Project** - работа с проектами в базе
+- **Task** - работа с задачами в базе
+- **Person** - работа с участниками в базе
 
-repository - репозитории
+## Сборка и запуск
 
-request - запросы. pojo
-
-service - сервисы
-
-util - утилиты(парсер)
-
-По названиям:
-
-Github - все относящиеся к получению данных с гита
-
-Project - работа с проектами в базе
-
-Task - работа с тасками в базе
-
-Person - работа с участниками в базе
-
-BUILD:
+```bash
 docker compose up -d --build
 
-Нейронка должна быть на эндпоинте http://127.0.0.1:5000/api/v1
+Примечание: Нейросетевая служба должна быть доступна по адресу http://127.0.0.1:5000/api/v1
+API Endpoints
+GitHub API
 
-ENDPOINTS
-http://127.0.0.1:8080/api/v1/GithubAPI/get-issues/{owner}/{repo}/{projectNumber} - Получение тасков из гита. Возвращает Mono с тасками\
-http://127.0.0.1:8080/api/v1/GithubAPI/get-collaborators/{owner}/{repo} - Получение юзеров из гита. Возвращает Mono с юзерами\
+    GET /api/v1/GithubAPI/get-issues/{owner}/{repo}/{projectNumber}
+    Получение задач из GitHub. Возвращает Mono с задачами.
 
-GET http://127.0.0.1:8080/api/v1/Person/get - Получение всех участников команды из базы
-INPUT: - 
-OUTPUT: 
+    GET /api/v1/GithubAPI/get-collaborators/{owner}/{repo}
+    Получение пользователей из GitHub. Возвращает Mono с пользователями.
+
+Участники (Person)
+
+    GET /api/v1/Person/get
+    Получение всех участников команды из базы.
+
+    Output:
+    json
+
 [
-    {"name": "<NAME>", 
-    "skillSet": [
-            "<SKILL>", 
-            "<SKILL>", 
-            ...
-        ]
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
     },
     ...
 ]
-POST http://127.0.0.1:8080/api/v1/Person/create - Создание участника команды в базе. На вход json с именем. На выход json с именем\
-INPUT:
-{
-    "name": "<NAME>",
-    "skillSet": [
-        "<SKILL>",
-        "<SKILL>",
-        ...
-        ]
-}
-OUTPUT:
-{
-    "name": "<NAME>",
-    "skillSet": [
-            "<SKILL>",
-            "<SKILL>",
-            ...
-        ]
-}
-GET http://127.0.0.1:8080/api/v1/Project/getAll - Получение всех проектов\
-INPUT: -
-OUTPUT:
+
+POST /api/v1/Person/create
+Создание участника команды в базе.
+
+Input:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+
+    Output: (аналогично input)
+
+Проекты (Project)
+
+    GET /api/v1/Project/getAll
+    Получение всех проектов.
+
+    Output:
+    json
+
 [
     {
         "id": <ID>,
@@ -79,40 +78,53 @@ OUTPUT:
     },
     ...
 ]
-POST http://127.0.0.1:8080/api/v1/Project/create - Создание проектов команды в базе.На вход json с названием. На выход json с названием\
-INPUT:
+
+POST /api/v1/Project/create
+Создание проекта.
+
+Input:
+json
+
 {
-    "title": "<TITLE>",
+    "title": "<TITLE>"
 }
-OUTPUT:
-{
-    "title": "<TITLE>",
-}
-POST http://127.0.0.1:8080/api/v1/Project/contains - Создание связи между проектом и таском. На вход json с названием проекта и названием таска. На выход json с названием проекта и названием таска\
-INPUT:
+
+Output: (аналогично input)
+
+POST /api/v1/Project/contains
+Создание связи между проектом и задачей.
+
+Input:
+json
+
 {
     "taskTitle": "<TASK_TITLE>",
     "projectTitle": "PROJECT_TITLE"
 }
-OUTPUT:
-{
-    "taskTitle": "<TASK_TITLE>",
-    "projectTitle": "PROJECT_TITLE"
-}
-POST http://127.0.0.1:8080/api/v1/Project/members - Создание связи между проектом и участником команды. На вход json с названием проекта и именем. На выход json с названием проекта и именем\
-INPUT:
-{
-    "projectTitle":"PROJECT_TITLE",
-    "name": "<COLLABORATOR_NAME>"
-}
-OUTPUT:
-{
-    "projectTitle":"PROJECT_TITLE",
-    "name": "<COLLABORATOR_NAME>"
-}
-GET http://127.0.0.1:8080/api/v1/Task/getAll - Получение всех тасков\
-INPUT: -
-OUTPUT:
+
+Output: (аналогично input)
+
+POST /api/v1/Project/members
+Создание связи между проектом и участником.
+
+Input:
+json
+
+    {
+        "projectTitle": "PROJECT_TITLE",
+        "name": "<COLLABORATOR_NAME>"
+    }
+
+    Output: (аналогично input)
+
+Задачи (Task)
+
+    GET /api/v1/Task/getAll
+    Получение всех задач.
+
+    Output:
+    json
+
 [
     {
         "id": <ID>,
@@ -122,37 +134,44 @@ OUTPUT:
     },
     ...
 ]
-POST http://127.0.0.1:8080/api/v1/Task/create - Создание таска в базе. На вход json с названием. На выход json с названием\
-INPUT:
+
+POST /api/v1/Task/create
+Создание задачи.
+
+Input:
+json
+
 {
     "title": "<TITLE>",
     "content": "<CONTENT>",
     "status": "<OPEN/CLOSED>"
-}
-OUTPUT:
-INPUT:
-{
-    "title": "<TITLE>",
-    "content": "<CONTENT>",
-    "status": "<OPEN/CLOSED>"
-}
-http://127.0.0.1:8080/api/v1/Task/assign - Создание связи между таском и участником. На вход json с именем участника и названием таска. На выход json с именем участник и названием таска
-INPUT:
-{
-    "name": "<COLLABORATOR_NAME>",
-    "title": "<TASK_TITLE>"
-}
-OUTPUT:
-{
-    "name": "<COLLABORATOR_NAME>",
-    "title": "<TASK_TITLE>"
 }
 
-GET http://127.0.0.1:8080/api/v1/AI/relations - распределение всех тасков между всеми исполнителями от нейронки
-INPUT: -
-OUTPUT:
+Output: (аналогично input)
+
+POST /api/v1/Task/assign
+Создание связи между задачей и участником.
+
+Input:
+json
+
+    {
+        "name": "<COLLABORATOR_NAME>",
+        "title": "<TASK_TITLE>"
+    }
+
+    Output: (аналогично input)
+
+AI Endpoints
+
+    GET /api/v1/AI/relations
+    Распределение всех задач между исполнителями (от нейросети).
+
+    Output:
+    json
+
 {
-"assignments": [
+    "assignments": [
         {
             "name": "COLLABORATOR_NAME",
             "title": "TASK_TITLE"
