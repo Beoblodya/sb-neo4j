@@ -28,27 +28,27 @@ docker compose up -d --build
 API Endpoints
 GitHub API
 
-    GET /api/v1/GithubAPI/get-issues/{owner}/{repo}/{projectNumber}
-    Получение задач из GitHub. Возвращает Mono с задачами.
+GET /api/v1/GithubAPI/get-issues/{owner}/{repo}/{projectNumber}
+Получение задач из GitHub. Возвращает Mono с задачами.
 
-    GET /api/v1/GithubAPI/get-collaborators/{owner}/{repo}
-    Получение пользователей из GitHub. Возвращает Mono с пользователями.
+GET /api/v1/GithubAPI/get-collaborators/{owner}/{repo}
+Получение пользователей из GitHub. Возвращает Mono с пользователями.
 
 Участники (Person)
 
-    GET /api/v1/Person/get
-    Получение всех участников команды из базы.
+GET /api/v1/Person/get
+Получение всех участников команды из базы.
 
-    Output:
-    json
+Output:
+json
 
-[
-    {
-        "name": "<NAME>",
-        "skillSet": ["<SKILL>", "<SKILL>", ...]
-    },
-    ...
-]
+    [
+        {
+            "name": "<NAME>",
+            "skillSet": ["<SKILL>", "<SKILL>", ...]
+        },
+        ...
+    ]
 
 POST /api/v1/Person/create
 Создание участника команды в базе.
@@ -61,23 +61,23 @@ json
         "skillSet": ["<SKILL>", "<SKILL>", ...]
     }
 
-    Output: (аналогично input)
+Output: (аналогично input)
 
 Проекты (Project)
 
-    GET /api/v1/Project/getAll
-    Получение всех проектов.
+GET /api/v1/Project/getAll
+Получение всех проектов.
 
-    Output:
-    json
+Output:
+json
 
-[
-    {
-        "id": <ID>,
-        "title": "PROJECT_TITLE"
-    },
-    ...
-]
+    [
+        {
+            "id": <ID>,
+            "title": "PROJECT_TITLE"
+        },
+        ...
+    ]
 
 POST /api/v1/Project/create
 Создание проекта.
@@ -85,9 +85,9 @@ POST /api/v1/Project/create
 Input:
 json
 
-{
-    "title": "<TITLE>"
-}
+    {
+        "title": "<TITLE>"
+    }
 
 Output: (аналогично input)
 
@@ -97,10 +97,10 @@ POST /api/v1/Project/contains
 Input:
 json
 
-{
-    "taskTitle": "<TASK_TITLE>",
-    "projectTitle": "PROJECT_TITLE"
-}
+    {
+        "taskTitle": "<TASK_TITLE>",
+        "projectTitle": "PROJECT_TITLE"
+    }
 
 Output: (аналогично input)
 
@@ -119,21 +119,21 @@ json
 
 Задачи (Task)
 
-    GET /api/v1/Task/getAll
-    Получение всех задач.
+GET /api/v1/Task/getAll
+Получение всех задач.
 
-    Output:
-    json
+Output:
+json
 
-[
-    {
-        "id": <ID>,
-        "title": "<TITLE>",
-        "content": "<CONTENT>",
-        "status": "<OPEN/CLOSED>"
-    },
-    ...
-]
+    [
+        {
+            "id": <ID>,
+            "title": "<TITLE>",
+            "content": "<CONTENT>",
+            "status": "<OPEN/CLOSED>"
+        },
+        ...
+    ]
 
 POST /api/v1/Task/create
 Создание задачи.
@@ -141,11 +141,11 @@ POST /api/v1/Task/create
 Input:
 json
 
-{
-    "title": "<TITLE>",
-    "content": "<CONTENT>",
-    "status": "<OPEN/CLOSED>"
-}
+    {
+        "title": "<TITLE>",
+        "content": "<CONTENT>",
+        "status": "<OPEN/CLOSED>"
+    }
 
 Output: (аналогично input)
 
@@ -160,21 +160,21 @@ json
         "title": "<TASK_TITLE>"
     }
 
-    Output: (аналогично input)
+Output: (аналогично input)
 
 AI Endpoints
 
-    GET /api/v1/AI/relations
-    Распределение всех задач между исполнителями (от нейросети).
+GET /api/v1/AI/relations
+Распределение всех задач между исполнителями (от нейросети).
 
-    Output:
-    json
+Output:
+json
 
-{
-    "assignments": [
-        {
-            "name": "COLLABORATOR_NAME",
-            "title": "TASK_TITLE"
-        }
-    ]
-}
+    {
+        "assignments": [
+            {
+                "name": "COLLABORATOR_NAME",
+                "title": "TASK_TITLE"
+            }
+        ]
+    }
