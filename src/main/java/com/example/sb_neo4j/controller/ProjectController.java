@@ -47,7 +47,6 @@ public class ProjectController {
         CreateProjectRequest responseProject = new CreateProjectRequest(project.getTitle());
 
         return new ResponseEntity<>(responseProject, HttpStatus.CREATED);
-        //TODO добавлять из git
     }
 
 
@@ -70,7 +69,8 @@ public class ProjectController {
     public ResponseEntity<ProjectPersonDTO> member(@RequestBody ProjectPersonDTO request){
         ProjectPersonQueryResult projectPersonQueryResult = projectService.member(request.getProjectTitle(), request.getName());
 
-        ProjectPersonDTO response = new ProjectPersonDTO(projectPersonQueryResult.getProject().getTitle(), projectPersonQueryResult.getPerson().getName());
+        ProjectPersonDTO response = new ProjectPersonDTO(projectPersonQueryResult.getProject().getTitle(),
+                projectPersonQueryResult.getPerson().getName());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -55,6 +55,10 @@ public class TaskController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    //Создание связи между таском и участником с помощью ии
+    //На вход json с именем участника и названием таска
+    //На выход json с именем участник и названием таска
+    @PostMapping("/generated")
     public ResponseEntity<TaskAssignmentDTO> generated(@RequestBody TaskAssignmentDTO request){
         TaskQueryResult taskQueryResult = taskService.generated(request.getName(), request.getTitle());
 
