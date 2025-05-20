@@ -6,11 +6,11 @@ public class ProjectPersonResponseDTO {
     private Long personId;
     private String personName;
 
-    public ProjectPersonResponseDTO(Long personId, String personName, Long projectId, String projectTitle) {
-        this.personId = personId;
-        this.personName = personName;
+    public ProjectPersonResponseDTO(Long projectId, String projectTitle, Long personId, String personName) {
         this.projectId = projectId;
         this.projectTitle = projectTitle;
+        this.personId = personId;
+        this.personName = personName;
     }
 
     public String getProjectTitle() {

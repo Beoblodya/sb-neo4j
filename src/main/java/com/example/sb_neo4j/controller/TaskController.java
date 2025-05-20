@@ -3,6 +3,8 @@ package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.QueryResults.TaskQueryResult;
 import com.example.sb_neo4j.dto.TaskAssignmentDTO;
+import com.example.sb_neo4j.dto.TaskAssignmentRequestDTO;
+import com.example.sb_neo4j.dto.TaskAssignmentResponseDTO;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
@@ -48,10 +50,11 @@ public class TaskController {
     //На вход json с именем участника и названием таска
     //На выход json с именем участник и названием таска
     @PostMapping("/assign")
-    public ResponseEntity<TaskAssignmentDTO> assign(@RequestBody TaskAssignmentDTO request){
-        TaskQueryResult taskQueryResult = taskService.assign(request.getName(), request.getTitle());
+    public ResponseEntity<TaskAssignmentResponseDTO> assign(@RequestBody TaskAssignmentRequestDTO request){
+        TaskQueryResult taskQueryResult = taskService.assign(request.getPersonId(), request.getTaskId());
 
-        TaskAssignmentDTO response = new TaskAssignmentDTO(taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getTitle());
+        TaskAssignmentResponseDTO response = new TaskAssignmentResponseDTO(taskQueryResult.getPerson().getId(), taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getId(),
+                taskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -59,10 +62,11 @@ public class TaskController {
     //На вход json с именем участника и названием таска
     //На выход json с именем участник и названием таска
     @PostMapping("/generated")
-    public ResponseEntity<TaskAssignmentDTO> generated(@RequestBody TaskAssignmentDTO request){
-        TaskQueryResult taskQueryResult = taskService.generated(request.getName(), request.getTitle());
+    public ResponseEntity<TaskAssignmentResponseDTO> generated(@RequestBody TaskAssignmentRequestDTO request){
+        TaskQueryResult taskQueryResult = taskService.generated(request.getPersonId(), request.getTaskId());
 
-        TaskAssignmentDTO response = new TaskAssignmentDTO(taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getTitle());
+        TaskAssignmentResponseDTO response = new TaskAssignmentResponseDTO(taskQueryResult.getPerson().getId(), taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getId(),
+                taskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

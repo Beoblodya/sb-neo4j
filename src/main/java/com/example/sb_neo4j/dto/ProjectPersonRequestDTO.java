@@ -4,9 +4,9 @@ public class ProjectPersonRequestDTO {
     private Long projectId;
     private Long personId;
 
-    public ProjectPersonRequestDTO(Long personId, Long projectId) {
-        this.personId = personId;
+    public ProjectPersonRequestDTO(Long projectId, Long personId) {
         this.projectId = projectId;
+        this.personId = personId;
     }
 
     public Long getPersonId() {

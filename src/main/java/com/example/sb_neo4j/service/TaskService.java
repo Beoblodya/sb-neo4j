@@ -34,12 +34,12 @@ public class TaskService {
         return task;
     }
 
-    public TaskQueryResult assign(String name, String title){
-        return taskRepository.assign(name, title);
+    public TaskQueryResult assign(Long personId, Long taskId){
+        return taskRepository.assign(personId, taskId);
     }
 
-    public TaskQueryResult generated(String name, String title){
-        return taskRepository.generated(name, title);
+    public TaskQueryResult generated(Long personId, Long taskId){
+        return taskRepository.generated(personId, taskId);
     }
 
     public Task findTaskByTitle(String header) {

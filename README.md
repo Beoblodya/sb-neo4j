@@ -78,7 +78,7 @@ json
     [
         {
             "id": <ID>,
-            "title": "PROJECT_TITLE"
+            "title": "<PROJECT_TITLE>"
         },
         ...
     ]
@@ -102,11 +102,18 @@ Input:
 json
 
     {
-        "taskTitle": "<TASK_TITLE>",
-        "projectTitle": "PROJECT_TITLE"
+        "projectId": "<PROJECT_ID>",
+        "taskId": "<TASK_ID>"
     }
 
-Output: (аналогично input)
+Output: json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "projectTitle": "<PROJECT_TITLE>",
+        "taskId": "<TASK_ID>",
+        "taskTitle": "<TASK_TITLE>"
+    }
 
 POST /api/v1/Project/members
 Создание связи между проектом и участником.
@@ -115,11 +122,19 @@ Input:
 json
 
     {
-        "projectTitle": "PROJECT_TITLE",
-        "name": "<COLLABORATOR_NAME>"
+        "projectId": "<PROJECT_ID>",
+        "personId": "<PERSON_ID>"
     }
 
-    Output: (аналогично input)
+    Output:
+    json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "projectTitle": "<PROJECT_TITLE>",
+        "personId": "<PERSON_ID>",
+        "personName": "<PERSON_NAME>"
+    }
 ```
 
 -**Задачи (Task)**
@@ -161,11 +176,19 @@ Input:
 json
 
     {
-        "name": "<COLLABORATOR_NAME>",
-        "title": "<TASK_TITLE>"
+        "personId": "<PERSON_ID>",
+        "taskId": "<TASK_ID>"
     }
 
-Output: (аналогично input)
+Output:
+json
+
+    {
+        "personId": "<PERSON_ID>",
+        "personName": "<PERSON_NAME>"
+        "taskId": "<TASK_ID>",
+        "taskTitle": "<TASK_TITLE>"
+    }
 ```
 
 -**AI Endpoints**
