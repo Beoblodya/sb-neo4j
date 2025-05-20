@@ -14,11 +14,11 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
 
 
 
-    @Query("MATCH (project:Project), (task:Task) WHERE project.title = $projectTitle AND task.title = $taskTitle " +
+    @Query("MATCH (project:Project), (task:Task) WHERE project.id = $projectId AND task.id = $taskId " +
             "CREATE (project)-[:CONTAINS]->(task) RETURN project, task")
-    ProjectTaskQueryResult contains(String projectTitle, String taskTitle);
+    ProjectTaskQueryResult contains(Long projectId, Long taskId);
 
-    @Query("MATCH (project:Project), (person:Person) WHERE project.title = $projectTitle AND person.name = $name " +
+    @Query("MATCH (project:Project), (person:Person) WHERE project.id = $projectId AND person.id = $personId " +
             "CREATE (project)-[:MEMBER]->(person) RETURN project, person")
-    ProjectPersonQueryResult member(String projectTitle, String name);
+    ProjectPersonQueryResult member(Long projectId, Long personId);
 }

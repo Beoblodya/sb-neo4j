@@ -30,11 +30,11 @@ public class ProjectService {
         return project;
     }
 
-    public ProjectTaskQueryResult contains(String projectTitle, String taskTitle){
-        return projectRepository.contains(projectTitle, taskTitle);
+    public ProjectTaskQueryResult contains(Long projectId, Long taskId){
+        return projectRepository.contains(projectId, taskId);
     }
 
-    public ProjectPersonQueryResult member(String projectTitle, String name){
-        return projectRepository.member(projectTitle, name);
+    public ProjectPersonQueryResult member(Long projectId, Long personId){
+        return projectRepository.member(projectId, personId);
     }
 }

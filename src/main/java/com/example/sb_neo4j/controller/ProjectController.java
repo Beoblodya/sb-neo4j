@@ -3,14 +3,12 @@ package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
-import com.example.sb_neo4j.QueryResults.TaskQueryResult;
-import com.example.sb_neo4j.dto.ProjectPersonDTO;
-import com.example.sb_neo4j.dto.ProjectTaskDTO;
-import com.example.sb_neo4j.dto.TaskAssignmentDTO;
+import com.example.sb_neo4j.dto.ProjectPersonRequestDTO;
+import com.example.sb_neo4j.dto.ProjectPersonResponseDTO;
+import com.example.sb_neo4j.dto.ProjectTaskRequestDTO;
+import com.example.sb_neo4j.dto.ProjectTaskResponseDTO;
 import com.example.sb_neo4j.model.Project;
-import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateProjectRequest;
-import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,10 +52,11 @@ public class ProjectController {
     //На вход json с названием проекта и названием таска
     //На выход json с названием проекта и названием таска
     @PostMapping("/contains")
-    public ResponseEntity<ProjectTaskDTO> contains(@RequestBody ProjectTaskDTO request){
-        ProjectTaskQueryResult projectTaskQueryResult = projectService.contains(request.getProjectTitle(), request.getTaskTitle());
+    public ResponseEntity<ProjectTaskResponseDTO> contains(@RequestBody ProjectTaskRequestDTO request){
+        ProjectTaskQueryResult projectTaskQueryResult = projectService.contains(request.getProjectId(), request.getTaskId());
 
-        ProjectTaskDTO response = new ProjectTaskDTO(projectTaskQueryResult.getProject().getTitle(), projectTaskQueryResult.getTask().getTitle());
+        ProjectTaskResponseDTO response = new ProjectTaskResponseDTO(projectTaskQueryResult.getProject().getId(),
+                projectTaskQueryResult.getProject().getTitle(), projectTaskQueryResult.getTask().getId(), projectTaskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -66,11 +65,11 @@ public class ProjectController {
     //На вход json с названием проекта и именем
     //На выход json с названием проекта и именем
     @PostMapping("/members")
-    public ResponseEntity<ProjectPersonDTO> member(@RequestBody ProjectPersonDTO request){
-        ProjectPersonQueryResult projectPersonQueryResult = projectService.member(request.getProjectTitle(), request.getName());
+    public ResponseEntity<ProjectPersonResponseDTO> member(@RequestBody ProjectPersonRequestDTO request){
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.member(request.getProjectId(), request.getPersonId());
 
-        ProjectPersonDTO response = new ProjectPersonDTO(projectPersonQueryResult.getProject().getTitle(),
-                projectPersonQueryResult.getPerson().getName());
+        ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
+                projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

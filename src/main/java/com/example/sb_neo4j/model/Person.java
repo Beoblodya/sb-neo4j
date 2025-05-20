@@ -34,4 +34,8 @@ public class Person {
     public void setSkillSet(List<String> skillSet) {
         this.skillSet = skillSet;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
