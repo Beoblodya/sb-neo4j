@@ -7,7 +7,9 @@ public class ProjectTaskQueryResult {
     private Project project;
     private Task task;
 
-    public ProjectTaskQueryResult() {
+    public ProjectTaskQueryResult(Project project, Task task) {
+        this.project = project;
+        this.task = task;
     }
 
     public Project getProject() {

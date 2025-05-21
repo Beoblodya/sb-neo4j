@@ -14,9 +14,9 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
 
 
 
-    @Query("MATCH (project:Project), (task:Task) WHERE project.id = $projectId AND task.id = $taskId " +
-            "CREATE (project)-[:CONTAINS]->(task) RETURN project, task")
-    ProjectTaskQueryResult contains(Long projectId, Long taskId);
+    @Query("MATCH (project:Project), (task:Task) WHERE id(project) = $projectId AND id(task) = $taskId " +
+            "CREATE (project)-[:CONTAINS]->(task)")
+    void contains(Long projectId, Long taskId);
 
     @Query("MATCH (project:Project), (person:Person) WHERE project.id = $projectId AND person.id = $personId " +
             "CREATE (project)-[:MEMBER]->(person) RETURN project, person")
