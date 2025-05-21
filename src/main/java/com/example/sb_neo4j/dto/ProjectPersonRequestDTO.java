@@ -1,27 +1,13 @@
 package com.example.sb_neo4j.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class ProjectPersonRequestDTO {
     private Long projectId;
     private Long personId;
-
-    public ProjectPersonRequestDTO(Long projectId, Long personId) {
-        this.projectId = projectId;
-        this.personId = personId;
-    }
-
-    public Long getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Long personId) {
-        this.personId = personId;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
 }

@@ -1,22 +1,15 @@
 package com.example.sb_neo4j.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class AIResponseDTO {
     private List<TaskAssignmentDTO> assignments;
-
-    public AIResponseDTO() {
-    }
-
-    public AIResponseDTO(List<TaskAssignmentDTO> assignments) {
-        this.assignments = assignments;
-    }
-
-    public List<TaskAssignmentDTO> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<TaskAssignmentDTO> assignments) {
-        this.assignments = assignments;
-    }
 }

@@ -1,28 +1,13 @@
 package com.example.sb_neo4j.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class TaskAssignmentDTO {
     private String name;
     private String title;
-
-    public TaskAssignmentDTO(String name, String title) {
-        this.name = name;
-        this.title = title;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

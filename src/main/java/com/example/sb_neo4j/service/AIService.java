@@ -4,15 +4,16 @@ import com.example.sb_neo4j.dto.AIQueryDTO;
 import com.example.sb_neo4j.dto.AIResponseDTO;
 import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class AIService {
-
-    private final  WebClient webClient;
-    private final  TaskRepository taskRepository;
+    private final WebClient webClient;
+    private final TaskRepository taskRepository;
     private final PersonRepository personRepository;
 
     public AIService(TaskRepository taskRepository, PersonRepository personRepository) {

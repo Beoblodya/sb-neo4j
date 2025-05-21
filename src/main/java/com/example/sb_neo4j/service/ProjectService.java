@@ -5,26 +5,22 @@ import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
 import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
+import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.ProjectRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateProjectRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectService {
-
-    @Autowired
     private final ProjectRepository projectRepository;
-    @Autowired
     private final TaskRepository taskRepository;
-
-    public ProjectService(ProjectRepository projectRepository, TaskRepository taskRepository) {
-        this.projectRepository = projectRepository;
-        this.taskRepository = taskRepository;
-    }
+    private final PersonRepository personRepository;
 
     public List<Project> getAllProjects(){ return projectRepository.findAll(); }
 

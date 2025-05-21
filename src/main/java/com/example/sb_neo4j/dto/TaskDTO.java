@@ -4,6 +4,4 @@ public record TaskDTO(
         String title,
         String description,
         String status
-        //TODO подвязать enum
-) {
-}
+){}
