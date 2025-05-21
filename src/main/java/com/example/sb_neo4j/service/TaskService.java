@@ -2,7 +2,9 @@ package com.example.sb_neo4j.service;
 
 
 import com.example.sb_neo4j.QueryResults.TaskQueryResult;
+import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Task;
+import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService {
     @Autowired
+    private final PersonRepository personRepository;
     private final TaskRepository taskRepository;
 
     public List<Task> getAllTasks (){
@@ -33,11 +36,21 @@ public class TaskService {
     }
 
     public TaskQueryResult assign(Long personId, Long taskId){
-        return taskRepository.assign(personId, taskId);
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found. Task id: "+taskId));
+        taskRepository.assign(personId, taskId);
+        return new TaskQueryResult(task, person);
     }
 
     public TaskQueryResult generated(Long personId, Long taskId){
-        return taskRepository.generated(personId, taskId);
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found. Task id: "+taskId));
+        taskRepository.generated(personId, taskId);
+        return new TaskQueryResult(task, person);
     }
 
     public Task findTaskByTitle(String header) {
