@@ -10,15 +10,11 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.Optional;
 
 public interface ProjectRepository extends Neo4jRepository<Project, Long> {
-    Optional<Project> findProjectByTitle(String title);
-
-
-
     @Query("MATCH (project:Project), (task:Task) WHERE id(project) = $projectId AND id(task) = $taskId " +
             "CREATE (project)-[:CONTAINS]->(task)")
     void contains(Long projectId, Long taskId);
 
-    @Query("MATCH (project:Project), (person:Person) WHERE project.id = $projectId AND person.id = $personId " +
-            "CREATE (project)-[:MEMBER]->(person) RETURN project, person")
-    ProjectPersonQueryResult member(Long projectId, Long personId);
+    @Query("MATCH (project:Project), (person:Person) WHERE id(project) = $projectId AND id(person) = $personId " +
+            "CREATE (project)-[:CONTAINS]->(person)")
+    void member(Long projectId, Long personId);
 }

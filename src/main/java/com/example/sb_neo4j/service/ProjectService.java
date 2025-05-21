@@ -3,6 +3,7 @@ package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
+import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.repository.PersonRepository;
@@ -31,16 +32,21 @@ public class ProjectService {
         return project;
     }
 
-    public ProjectTaskQueryResult contains(Long projectId, Long taskId) throws Exception {
+    public ProjectTaskQueryResult contains(Long projectId, Long taskId){
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new Exception("Project not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: " +projectId));
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new Exception("Task not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Task not found. Task id: "+taskId));
         projectRepository.contains(projectId, taskId);
         return new ProjectTaskQueryResult(project, task);
     }
 
     public ProjectPersonQueryResult member(Long projectId, Long personId){
-        return projectRepository.member(projectId, personId);
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+projectId));
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
+        projectRepository.member(projectId, personId);
+        return new ProjectPersonQueryResult(project, person);
     }
 }
