@@ -65,6 +65,16 @@ json
     }
 
 Output: (аналогично input)
+
+GET api/v1/Person/getById
+Получение участника команды по id
+
+GET api/v1/Person/person-project
+Получение проектов по id участника команды
+
+GET api/v1/Person/addSkillsById
+Добавить скилы участнику
+
 ```
 
 -**Проекты (Project)**
@@ -158,6 +168,16 @@ json
         },
         ...
     ]
+    
+GET api/v1/Project/getById
+Получение команды по id
+
+GET api/v1/Project/project-tasks
+Получение тасков проекта
+
+GET api/v1/Project/project-people
+Получение участников проекта
+
 ```
 
 -**Задачи (Task)**
@@ -212,6 +232,9 @@ json
         "taskId": "<TASK_ID>",
         "taskTitle": "<TASK_TITLE>"
     }
+
+GET api/v1/Task/getById
+Получение таска по id
 ```
 
 -**AI Endpoints**

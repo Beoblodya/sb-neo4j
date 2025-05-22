@@ -49,7 +49,7 @@ public class PersonController {
         return new ResponseEntity<>(request, HttpStatus.CREATED);
     }
 
-    //Подучение проектов по id участника команды
+    //Получение проектов по id участника команды
     @GetMapping("/person-project")
     public ResponseEntity<List<Project>> getProjectsByPersonId(@RequestBody PersonIdDTO request){
         return new ResponseEntity<>(personService.getProjectsByPersonId(request.getPersonId()), HttpStatus.OK);
