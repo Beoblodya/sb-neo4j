@@ -5,6 +5,7 @@ import com.example.sb_neo4j.QueryResults.TaskQueryResult;
 import com.example.sb_neo4j.dto.TaskAssignmentDTO;
 import com.example.sb_neo4j.dto.TaskAssignmentRequestDTO;
 import com.example.sb_neo4j.dto.TaskAssignmentResponseDTO;
+import com.example.sb_neo4j.dto.TaskIdDTO;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/Task")
@@ -31,6 +33,12 @@ public class TaskController {
     @GetMapping("/getAll")
     public ResponseEntity<List<Task>> getAllTask(){
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
+    }
+
+    //Получение таска по id
+    @GetMapping("/getById")
+    public ResponseEntity<Optional<Task>> getById(@RequestBody TaskIdDTO request){
+        return new ResponseEntity<>(taskService.getById(request.getTaskId()), HttpStatus.OK);
     }
 
     //Создание таска в базе

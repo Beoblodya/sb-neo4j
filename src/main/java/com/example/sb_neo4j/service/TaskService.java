@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,8 @@ public class TaskService {
     public List<Task> getAllTasks (){
         return taskRepository.findAll();
     }
+
+    public Optional<Task> getById(Long TaskId){ return taskRepository.findById(TaskId); }
 
     public Task createTask(CreateTaskRequest createTaskRequest){
         Task task = new Task();

@@ -34,6 +34,11 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getAllProjects(), HttpStatus.OK);
     }
 
+    //Получение проекта по id
+    @GetMapping("/getById")
+    public ResponseEntity<Optional<Project>> getById(@RequestBody ProjectIdDTO request){
+        return new ResponseEntity<>(projectService.getById(request.getProjectId()), HttpStatus.OK);
+    }
 
     //Создание проектов команды в базе
     //На вход json с названием
@@ -60,10 +65,7 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/getById")
-    public ResponseEntity<Optional<Project>> getById(@RequestBody ProjectTasksDTO request){
-        return new ResponseEntity<>(projectService.getById(request.getProjectId()), HttpStatus.OK);
-    }
+
 
 
     //Создание связи между проектом и участником команды
@@ -79,12 +81,12 @@ public class ProjectController {
     }
 
     @GetMapping("/project-tasks")
-    public ResponseEntity<List<Task>> getProjectTasksPrID(@RequestBody ProjectTasksDTO dto){
+    public ResponseEntity<List<Task>> getProjectTasksPrID(@RequestBody ProjectIdDTO dto){
         return new ResponseEntity<>(projectService.getProjectTasksPrID(dto.getProjectId()), HttpStatus.OK);
     }
 
     @GetMapping("/project-people")
-    public ResponseEntity<List<Person>> getProjectPeoplePrID(@RequestBody ProjectTasksDTO dto){
+    public ResponseEntity<List<Person>> getProjectPeoplePrID(@RequestBody ProjectIdDTO dto){
         return new ResponseEntity<>(projectService.getProjectPeoplePrID(dto.getProjectId()), HttpStatus.OK);
     }
 }
