@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/Project")
@@ -57,6 +58,11 @@ public class ProjectController {
         ProjectTaskResponseDTO response = new ProjectTaskResponseDTO(projectTaskQueryResult.getProject().getId(),
                 projectTaskQueryResult.getProject().getTitle(), projectTaskQueryResult.getTask().getId(), projectTaskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/getById")
+    public ResponseEntity<Optional<Project>> getById(@RequestBody ProjectTasksDTO request){
+        return new ResponseEntity<>(projectService.getById(request.getProjectId()), HttpStatus.OK);
     }
 
 

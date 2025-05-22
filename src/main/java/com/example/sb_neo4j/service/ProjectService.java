@@ -11,12 +11,10 @@ import com.example.sb_neo4j.repository.ProjectRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateProjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +24,8 @@ public class ProjectService {
     private final PersonRepository personRepository;
 
     public List<Project> getAllProjects(){ return projectRepository.findAll(); }
+
+    public Optional<Project> getById(Long projectId){ return projectRepository.findById(projectId);}
 
     public Project createProject(CreateProjectRequest createProjectRequest){
         Project project = new Project();
