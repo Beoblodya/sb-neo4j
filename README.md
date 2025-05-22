@@ -126,8 +126,8 @@ json
         "personId": "<PERSON_ID>"
     }
 
-    Output:
-    json
+Output:
+json
 
     {
         "projectId": "<PROJECT_ID>",
@@ -135,6 +135,29 @@ json
         "personId": "<PERSON_ID>",
         "personName": "<PERSON_NAME>"
     }
+    
+GET /api/v1/Project/project-tasks
+Получение всех тасков проекта
+
+Input:
+json
+
+    {
+      "projectId": <PROJECT_ID>
+    }
+
+Output:
+json
+
+    [
+        {
+            "id": <ID>,
+            "title": "<TITLE>",
+            "content": "<CONTENT>",
+            "status": "<OPEN/CLOSED>"
+        },
+        ...
+    ]
 ```
 
 -**Задачи (Task)**

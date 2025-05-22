@@ -5,6 +5,7 @@ import com.example.sb_neo4j.model.Task;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository extends Neo4jRepository<Task, Long> {

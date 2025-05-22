@@ -3,11 +3,9 @@ package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
-import com.example.sb_neo4j.dto.ProjectPersonRequestDTO;
-import com.example.sb_neo4j.dto.ProjectPersonResponseDTO;
-import com.example.sb_neo4j.dto.ProjectTaskRequestDTO;
-import com.example.sb_neo4j.dto.ProjectTaskResponseDTO;
+import com.example.sb_neo4j.dto.*;
 import com.example.sb_neo4j.model.Project;
+import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateProjectRequest;
 import com.example.sb_neo4j.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +69,10 @@ public class ProjectController {
         ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
                 projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/project-tasks")
+    public ResponseEntity<List<Task>> getProjectTasksPrID(@RequestBody ProjectTasksDTO dto){
+        return new ResponseEntity<>(projectService.getProjectTasksPID(dto.getProjectId()), HttpStatus.OK);
     }
 }

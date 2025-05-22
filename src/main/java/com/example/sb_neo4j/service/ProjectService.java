@@ -12,8 +12,10 @@ import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateProjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,5 +50,10 @@ public class ProjectService {
                 .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
         projectRepository.member(projectId, personId);
         return new ProjectPersonQueryResult(project, person);
+    }
+
+    public List<Task> getProjectTasksPID (Long projectId){
+        List<Long> tasksIds = projectRepository.getProjectTasksPID(projectId);
+        return taskRepository.findAllById(tasksIds);
     }
 }
