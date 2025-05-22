@@ -1,10 +1,12 @@
 package com.example.sb_neo4j.controller;
 
 import com.example.sb_neo4j.dto.PersonIdDTO;
+import com.example.sb_neo4j.dto.PersonSkillDTO;
 import com.example.sb_neo4j.dto.PersonSkillsDTO;
 import com.example.sb_neo4j.dto.ProjectIdDTO;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
+import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import com.example.sb_neo4j.service.PersonService;
 import org.apiguardian.api.API;
@@ -49,14 +51,33 @@ public class PersonController {
         return new ResponseEntity<>(request, HttpStatus.CREATED);
     }
 
-    //Подучение проектов по id участника команды
+    //Поучение проектов по id участника команды
     @GetMapping("/person-project")
     public ResponseEntity<List<Project>> getProjectsByPersonId(@RequestBody PersonIdDTO request){
         return new ResponseEntity<>(personService.getProjectsByPersonId(request.getPersonId()), HttpStatus.OK);
     }
 
+    //Получение тасков по id участника команды
+    @GetMapping("/person-task")
+    public ResponseEntity<List<Task>> getTasksByPersonId(@RequestBody PersonIdDTO request){
+        return new ResponseEntity<>(personService.getTasksByPersonId(request.getPersonId()), HttpStatus.OK);
+    }
+
+    //Добавление скиллов
     @PostMapping("/addSkillsById")
     public ResponseEntity<Optional<Person>> addSkills(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.addSkills(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
+    }
+
+    //Удаление скилла
+    @PostMapping("/deleteASkillById")
+    public ResponseEntity<Optional<Person>> deleteASkill(@RequestBody PersonSkillDTO request){
+        return new ResponseEntity<>(personService.deleteASkill(request.getPersonId(), request.getSkill()), HttpStatus.OK);
+    }
+
+    //Обновление скиллов(замена массива)
+    @PostMapping("/updateSkillSetById")
+    public ResponseEntity<Optional<Person>> updateSkillSet(@RequestBody PersonSkillsDTO request){
+        return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 }

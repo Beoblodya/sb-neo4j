@@ -6,6 +6,7 @@ import com.example.sb_neo4j.dto.TaskAssignmentDTO;
 import com.example.sb_neo4j.dto.TaskAssignmentRequestDTO;
 import com.example.sb_neo4j.dto.TaskAssignmentResponseDTO;
 import com.example.sb_neo4j.dto.TaskIdDTO;
+import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
@@ -76,5 +77,10 @@ public class TaskController {
         TaskAssignmentResponseDTO response = new TaskAssignmentResponseDTO(taskQueryResult.getPerson().getId(), taskQueryResult.getPerson().getName(), taskQueryResult.getTask().getId(),
                 taskQueryResult.getTask().getTitle());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/task-person")
+    public ResponseEntity<List<Person>> getPersonByTaskId(@RequestBody TaskIdDTO request){
+        return new ResponseEntity<>(taskService.getPersonByTaskId(request.getTaskId()), HttpStatus.OK);
     }
 }
