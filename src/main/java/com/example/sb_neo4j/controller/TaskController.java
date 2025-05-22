@@ -29,7 +29,6 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-
     //Получение всех тасков
     @GetMapping("/getAll")
     public ResponseEntity<List<Task>> getAllTask(){

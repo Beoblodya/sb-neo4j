@@ -6,5 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class TaskIdDTO {
-    private final Long TaskId;
+    private final Long taskId;
 }
