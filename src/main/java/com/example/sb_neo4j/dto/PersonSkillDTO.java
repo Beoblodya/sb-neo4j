@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class TaskIdDTO {
-    private final Long taskId;
+public class PersonSkillDTO {
+    private Long personId;
+    private String skill;
 }

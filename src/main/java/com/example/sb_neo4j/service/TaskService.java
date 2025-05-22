@@ -61,4 +61,9 @@ public class TaskService {
         return taskRepository.findTaskByTitle(header)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
+
+    public List<Person> getPersonByTaskId(Long taskId){
+        List<Long> personIds = taskRepository.getPersonByTaskId(taskId);
+        return personRepository.findAllById(personIds);
+    }
 }

@@ -3,8 +3,10 @@ package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
+import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.ProjectRepository;
+import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class PersonService {
     private final PersonRepository personRepository;
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
 
     public List<Person> getAllPerson(){
         return personRepository.findAll();
@@ -37,7 +40,20 @@ public class PersonService {
         return projectRepository.findAllById(projectIds);
     }
 
+    public List<Task> getTasksByPersonId(Long personId){
+        List<Long> taskIds = personRepository.getTasksByPersonId(personId);
+        return taskRepository.findAllById(taskIds);
+    }
+
     public Optional<Person> addSkills(Long personId, List<String> newSkills){
         return personRepository.findById(personRepository.addSkills(personId, newSkills));
+    }
+
+    public Optional<Person> deleteASkill(Long personId, String skill){
+        return personRepository.findById(personRepository.deleteASkill(personId, skill));
+    }
+
+    public Optional<Person> updateSkillSet(Long personId, List<String> newSkills){
+        return personRepository.findById(personRepository.updateSkillSet(personId, newSkills));
     }
 }

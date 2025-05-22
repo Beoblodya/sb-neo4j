@@ -65,9 +65,6 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-
-
     //Создание связи между проектом и участником команды
     //На вход json с названием проекта и именем
     //На выход json с названием проекта и именем

@@ -40,7 +40,7 @@ GET /api/v1/GithubAPI/get-collaborators/{owner}/{repo}
 
 -**Участники (Person)**
 ```bash
-GET /api/v1/Person/get
+GET /api/v1/Person/getAll
 Получение всех участников команды из базы.
 
 Output:
@@ -52,6 +52,24 @@ json
         },
         ...
     ]
+
+GET /api/v1/Person/getById
+Получение участника команды по id
+
+Input:
+json
+
+    {
+        "personId": "<PERSON_ID>"
+    }
+
+Output:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
 
 POST /api/v1/Person/create
 Создание участника команды в базе.
@@ -66,14 +84,104 @@ json
 
 Output: (аналогично input)
 
-GET api/v1/Person/getById
-Получение участника команды по id
+GET /api/v1/Person/person-project
+Подучение проектов по id участника команды
 
-GET api/v1/Person/person-project
-Получение проектов по id участника команды
+Input:
+json
 
-GET api/v1/Person/addSkillsById
-Добавить скилы участнику
+    {
+        "personId": "<PERSON_ID>"
+    }
+
+Output:
+json
+
+    [
+        {
+            "id": <ID>,
+            "title": "<PROJECT_TITLE>"
+        },
+        ...
+    ]
+    
+GET /api/v1/Person/person-task
+Получение тасков по id участника команды
+
+Input:
+json
+
+    {
+        "personId": "<PERSON_ID>"
+    }
+
+Output:
+    [
+        {
+            "id": <ID>,
+            "title": "<TITLE>",
+            "content": "<CONTENT>",
+            "status": "<OPEN/CLOSED>"
+        },
+        ...
+    ]
+    
+POST /api/v1/Person/addSkillsById
+Добавление скиллов
+
+Input:
+json
+
+    {
+        "personId": "<PERSON_ID>",
+        "personSkillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+    
+Output:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+    
+POST /api/v1/Person/deleteASkillById
+Удаление скилла
+
+Input:
+json
+
+    {
+        "personId": "<PERSON_ID>",
+        "skill": "<SKILL>"
+    }
+    
+Output:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+    
+POST /api/v1/Person/updateSkillSetById
+Обновление скиллов(замена массива)
+
+Input:
+json
+
+    {
+        "personId": "<PERSON_ID>",
+        "personSkillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+    
+Output:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
 
 ```
 
@@ -92,6 +200,23 @@ json
         },
         ...
     ]
+
+GET /api/v1/Project/getById
+Получение проекта по id
+
+Input:
+json
+
+    {
+        "projectId": "<PROJECT_ID >"
+    }
+
+Output:
+json
+    {
+        "id": <ID>,
+        "title": "<PROJECT_TITLE>"
+    }
 
 POST /api/v1/Project/create
 Создание проекта.
@@ -169,15 +294,23 @@ json
         ...
     ]
     
-GET api/v1/Project/getById
-Получение команды по id
+GET /api/v1/Project/project-people
+получение всех участников проекта
 
-GET api/v1/Project/project-tasks
-Получение тасков проекта
+Input:
+json
 
-GET api/v1/Project/project-people
-Получение участников проекта
+    {
+      "projectId": <PROJECT_ID>
+    }
+    
+Output:
+json
 
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
 ```
 
 -**Задачи (Task)**
@@ -197,6 +330,24 @@ json
         },
         ...
     ]
+    
+GET /api/v1/Task/getById
+Получение таска по id
+
+Input:
+json
+
+    {
+        "TaskId": "<TASK_ID>"
+    }
+    
+Output:
+    {
+        "id": <ID>,
+        "title": "<TITLE>",
+        "content": "<CONTENT>",
+        "status": "<OPEN/CLOSED>"
+    }
 
 POST /api/v1/Task/create
 Создание задачи.
@@ -232,9 +383,25 @@ json
         "taskId": "<TASK_ID>",
         "taskTitle": "<TASK_TITLE>"
     }
+    
+GET /api/v1/Task/task-person
+Получение участников по id таска
 
-GET api/v1/Task/getById
-Получение таска по id
+Input:
+json
+
+    {
+        "TaskId": "<TASK_ID>"
+    }
+    
+Output:
+json
+
+    {
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
+    }
+
 ```
 
 -**AI Endpoints**

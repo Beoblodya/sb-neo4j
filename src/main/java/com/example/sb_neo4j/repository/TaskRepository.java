@@ -20,4 +20,7 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
     @Query("MATCH (person:Person), (task:Task) WHERE id(person) = $personId AND id(task) = $taskId " +
             "CREATE (person)-[:GENERATED]->(task)")
     void generated(Long personId, Long taskId);
+
+    @Query("MATCH (p:Person)-[:ASSIGNED]->(t:Task) WHERE id(t) = $taskId RETURN id(p)")
+    List<Long> getPersonByTaskId(Long taskId);
 }
