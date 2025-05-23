@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository extends Neo4jRepository<Task, Long> {
+
+    @Query("MATCH (t:Task) WHERE t.title = $title RETURN t")
     Optional<Task> findTaskByTitle(String title);
-
-
 
     @Query("MATCH (person:Person), (task:Task) WHERE id(person) = $personId AND id(task) = $taskId " +
             "CREATE (person)-[:ASSIGNED]->(task)")

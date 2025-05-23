@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -35,7 +36,8 @@ public class TaskService {
         task.setTitle(createTaskRequest.getTitle());
         task.setStatus(createTaskRequest.getStatus());
         taskRepository.save(task);
-        return task;
+        return taskRepository.findTaskByTitle(createTaskRequest.getTitle())
+                .orElseThrow(() -> new NoSuchElementException("Task not created"));
     }
 
     public TaskQueryResult assign(Long personId, Long taskId){
@@ -56,9 +58,9 @@ public class TaskService {
         return new TaskQueryResult(task, person);
     }
 
-    public Task findTaskByTitle(String header) {
+    public Task findTaskByTitle(String title) {
 
-        return taskRepository.findTaskByTitle(header)
+        return taskRepository.findTaskByTitle(title)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
 
