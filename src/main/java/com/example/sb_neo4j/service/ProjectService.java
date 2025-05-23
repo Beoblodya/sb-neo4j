@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -32,8 +31,7 @@ public class ProjectService {
         Project project = new Project();
         project.setTitle(createProjectRequest.getTitle());
         projectRepository.save(project);
-        return projectRepository.findProjectByTitle(createProjectRequest.getTitle())
-                .orElseThrow(() -> new NoSuchElementException("Project is not created"));
+        return project;
     }
 
     public ProjectTaskQueryResult contains(Long projectId, Long taskId){
