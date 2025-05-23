@@ -78,7 +78,7 @@ public class PersonController {
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
-    @GetMapping("/getByName")
+    @PostMapping("/getByName")
     public ResponseEntity<List<Person>> getPersonByName(@RequestBody PersonNameDTO dto){
         return new ResponseEntity<>(personService.getPersonByName(dto.getName()), HttpStatus.OK);
     }
