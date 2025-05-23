@@ -53,15 +53,18 @@ json
         ...
     ]
 
-GET /api/v1/Person/getById
+GET /api/v1/Person/get-person/{id}
 Получение участника команды по id
 
-Input:
+Output:
 json
 
     {
-        "personId": "<PERSON_ID>"
+        "name": "<NAME>",
+        "skillSet": ["<SKILL>", "<SKILL>", ...]
     }
+
+GET /api/v1/Person/get-person-by-name/{name}
 
 Output:
 json
@@ -84,15 +87,8 @@ json
 
 Output: (аналогично input)
 
-GET /api/v1/Person/person-project
+GET /api/v1/Person/projects-of-person/{id}
 Подучение проектов по id участника команды
-
-Input:
-json
-
-    {
-        "personId": "<PERSON_ID>"
-    }
 
 Output:
 json
@@ -105,7 +101,7 @@ json
         ...
     ]
     
-GET /api/v1/Person/person-task
+GET /api/v1/Person/tasks-of-person/{id}
 Получение тасков по id участника команды
 
 Input:
@@ -201,15 +197,8 @@ json
         ...
     ]
 
-GET /api/v1/Project/getById
+GET /api/v1/Project/get-project{id}
 Получение проекта по id
-
-Input:
-json
-
-    {
-        "projectId": "<PROJECT_ID >"
-    }
 
 Output:
 json
@@ -271,15 +260,8 @@ json
         "personName": "<PERSON_NAME>"
     }
     
-GET /api/v1/Project/project-tasks
+GET /api/v1/Project/tasks-of-project/{id}
 Получение всех тасков проекта
-
-Input:
-json
-
-    {
-      "projectId": <PROJECT_ID>
-    }
 
 Output:
 json
@@ -294,15 +276,8 @@ json
         ...
     ]
     
-GET /api/v1/Project/project-people
+GET /api/v1/Project/members-of-project/{id}
 получение всех участников проекта
-
-Input:
-json
-
-    {
-      "projectId": <PROJECT_ID>
-    }
     
 Output:
 json
@@ -331,16 +306,9 @@ json
         ...
     ]
     
-GET /api/v1/Task/getById
+GET /api/v1/Task/get-task/{id}
 Получение таска по id
-
-Input:
-json
-
-    {
-        "TaskId": "<TASK_ID>"
-    }
-    
+  
 Output:
     {
         "id": <ID>,
@@ -384,16 +352,9 @@ json
         "taskTitle": "<TASK_TITLE>"
     }
     
-GET /api/v1/Task/task-person
+GET /api/v1/Task/get-responsible-for-task/{id}
 Получение участников по id таска
-
-Input:
-json
-
-    {
-        "TaskId": "<TASK_ID>"
-    }
-    
+   
 Output:
 json
 

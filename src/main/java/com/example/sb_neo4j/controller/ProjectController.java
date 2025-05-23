@@ -35,9 +35,9 @@ public class ProjectController {
     }
 
     //Получение проекта по id
-    @GetMapping("/getById")
-    public ResponseEntity<Optional<Project>> getById(@RequestBody ProjectIdDTO request){
-        return new ResponseEntity<>(projectService.getById(request.getProjectId()), HttpStatus.OK);
+    @GetMapping("/get-project/{id}")
+    public ResponseEntity<Optional<Project>> getById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getById(id), HttpStatus.OK);
     }
 
     //Создание проектов команды в базе
@@ -77,13 +77,13 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/project-tasks")
-    public ResponseEntity<List<Task>> getProjectTasksPrID(@RequestBody ProjectIdDTO dto){
-        return new ResponseEntity<>(projectService.getProjectTasksPrID(dto.getProjectId()), HttpStatus.OK);
+    @GetMapping("/tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getProjectTasksPrID(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectTasksPrID(id), HttpStatus.OK);
     }
 
-    @GetMapping("/project-people")
-    public ResponseEntity<List<Person>> getProjectPeoplePrID(@RequestBody ProjectIdDTO dto){
-        return new ResponseEntity<>(projectService.getProjectPeoplePrID(dto.getProjectId()), HttpStatus.OK);
+    @GetMapping("/members-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectPeoplePrID(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeoplePrID(id), HttpStatus.OK);
     }
 }

@@ -6,6 +6,7 @@ import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import com.example.sb_neo4j.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,9 @@ public class PersonController {
     }
 
     //Получение участника команды по id
-    @GetMapping("/getById")
-    public ResponseEntity<Optional<Person>> getById(@RequestBody PersonIdDTO request){
-        return new ResponseEntity<>(personService.getById(request.getPersonId()), HttpStatus.OK);
+    @GetMapping("/get-person/{id}")
+    public ResponseEntity<Optional<Person>> getById(@PathVariable Long id){
+        return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
     }
 
     //Создание участника команды в базе
@@ -49,15 +50,15 @@ public class PersonController {
     }
 
     //Поучение проектов по id участника команды
-    @GetMapping("/person-project")
-    public ResponseEntity<List<Project>> getProjectsByPersonId(@RequestBody PersonIdDTO request){
-        return new ResponseEntity<>(personService.getProjectsByPersonId(request.getPersonId()), HttpStatus.OK);
+    @GetMapping("/projects-of-person/{id}")
+    public ResponseEntity<List<Project>> getProjectsByPersonId(@PathVariable Long id){
+        return new ResponseEntity<>(personService.getProjectsByPersonId(id), HttpStatus.OK);
     }
 
     //Получение тасков по id участника команды
-    @GetMapping("/person-task")
-    public ResponseEntity<List<Task>> getTasksByPersonId(@RequestBody PersonIdDTO request){
-        return new ResponseEntity<>(personService.getTasksByPersonId(request.getPersonId()), HttpStatus.OK);
+    @GetMapping("/tasks-of-person/{id}")
+    public ResponseEntity<List<Task>> getTasksByPersonId(@PathVariable Long id){
+        return new ResponseEntity<>(personService.getTasksByPersonId(id), HttpStatus.OK);
     }
 
     //Добавление скиллов
@@ -78,8 +79,8 @@ public class PersonController {
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
-    @PostMapping("/getByName")
-    public ResponseEntity<List<Person>> getPersonByName(@RequestBody PersonNameDTO dto){
-        return new ResponseEntity<>(personService.getPersonByName(dto.getName()), HttpStatus.OK);
+    @PostMapping("/get-person-by-name/{name}")
+    public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name){
+        return new ResponseEntity<>(personService.getPersonByName(name), HttpStatus.OK);
     }
 }

@@ -36,9 +36,9 @@ public class TaskController {
     }
 
     //Получение таска по id
-    @GetMapping("/getById")
-    public ResponseEntity<Optional<Task>> getById(@RequestBody TaskIdDTO request){
-        return new ResponseEntity<>(taskService.getById(request.getTaskId()), HttpStatus.OK);
+    @GetMapping("/get-task/{id}")
+    public ResponseEntity<Optional<Task>> getById(@PathVariable Long id){
+        return new ResponseEntity<>(taskService.getById(id), HttpStatus.OK);
     }
 
     //Создание таска в базе
@@ -78,8 +78,8 @@ public class TaskController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/task-person")
-    public ResponseEntity<List<Person>> getPersonByTaskId(@RequestBody TaskIdDTO request){
-        return new ResponseEntity<>(taskService.getPersonByTaskId(request.getTaskId()), HttpStatus.OK);
+    @GetMapping("/get-responsible-for-task/{id}")
+    public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
+        return new ResponseEntity<>(taskService.getPersonByTaskId(id), HttpStatus.OK);
     }
 }
