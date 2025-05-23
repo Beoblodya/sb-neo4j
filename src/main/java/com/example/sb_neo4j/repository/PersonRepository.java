@@ -10,7 +10,10 @@ import java.util.Optional;
 public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
     @Query("MATCH (p:Person) WHERE p.name = $name RETURN p")
-    Optional<List<Person>> findByName(String name);
+    Optional<List<Person>> findAllByName(String name);
+
+    @Query("MATCH (p:Person) WHERE p.name = $name RETURN p")
+    Optional<Person> findByName(String name);
 
     @Query("MATCH (p:Project)-[r:MEMBER]->(pe:Person) WHERE id(pe)=$personId RETURN id(p)")
     List<Long> getProjectsByPersonId(Long personId);
