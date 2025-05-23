@@ -44,12 +44,9 @@ public class ProjectController {
     //На вход json с названием
     //На выход json с названием
     @PostMapping("/create")
-    public ResponseEntity<CreateProjectRequest> createProject(@RequestBody CreateProjectRequest request){
+    public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest request){
         Project project = projectService.createProject(request);
-
-        CreateProjectRequest responseProject = new CreateProjectRequest(project.getTitle());
-
-        return new ResponseEntity<>(responseProject, HttpStatus.CREATED);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
 

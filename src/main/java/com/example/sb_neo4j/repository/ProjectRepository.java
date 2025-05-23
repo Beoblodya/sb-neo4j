@@ -9,6 +9,10 @@ import java.util.Optional;
 import java.util.List;
 
 public interface ProjectRepository extends Neo4jRepository<Project, Long> {
+
+    @Query("MATCH (p:Project) WHERE p.title = $title RETURN p")
+    Optional<Project> findProjectByTitle(String title);
+
     @Query("MATCH (project:Project), (task:Task) WHERE id(project) = $projectId AND id(task) = $taskId " +
             "CREATE (project)-[:CONTAINS]->(task)")
     void contains(Long projectId, Long taskId);
