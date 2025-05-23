@@ -45,10 +45,12 @@ public class TaskController {
     //На вход json с названием
     //На выход json с названием
     @PostMapping("/create")
-    public ResponseEntity<Task> taskCreate(@RequestBody CreateTaskRequest request){
+    public ResponseEntity<CreateTaskRequest> taskCreate(@RequestBody CreateTaskRequest request){
         Task task = taskService.createTask(request);
 
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        CreateTaskRequest responseTask = new CreateTaskRequest(task.getTitle(), task.getContent(), task.getStatus());
+
+        return new ResponseEntity<>(responseTask, HttpStatus.CREATED);
     }
 
 
