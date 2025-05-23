@@ -13,7 +13,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -30,17 +29,16 @@ public class PersonService {
     public Optional<Person> getById(Long personId){ return personRepository.findById(personId); }
 
     public List<Person> getPersonByName(String name){
-        return personRepository.findAllByName(name)
+        return personRepository.findByName(name)
                 .orElseThrow(() -> new IllegalArgumentException("Person with name <"+name+"> is not found"));
     }
 
-    public List<Person> createPerson(CreatePersonRequestOrDTO request){
+    public Person createPerson(CreatePersonRequestOrDTO request){
         Person person = new Person();
         person.setName(request.getName());
         person.setSkillSet(request.getSkillSet());
         personRepository.save(person);
-        return personRepository.findAllByName(request.getName())
-                .orElseThrow(() -> new NoSuchElementException("Person is not created"));
+        return person;
     }
 
     public List<Project> getProjectsByPersonId(Long personId){
