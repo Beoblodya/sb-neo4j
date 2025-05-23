@@ -45,10 +45,10 @@ public class PersonController {
     //На вход json с именем
     //На выход json с именем
     @PostMapping("/create")
-    public ResponseEntity<CreatePersonRequestOrDTO> personCreate(@RequestBody CreatePersonRequestOrDTO request){
+    public ResponseEntity<Optional<Person>> personCreate(@RequestBody CreatePersonRequestOrDTO request){
         Person person = personService.createPerson(request);
 
-        return new ResponseEntity<>(request, HttpStatus.CREATED);
+        return new ResponseEntity<>(personService.getById(person.getId()), HttpStatus.CREATED);
     }
 
     //Поучение проектов по id участника команды
