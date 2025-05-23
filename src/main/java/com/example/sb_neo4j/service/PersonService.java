@@ -9,6 +9,7 @@ import com.example.sb_neo4j.repository.ProjectRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class PersonService {
     }
 
     public Optional<Person> getById(Long personId){ return personRepository.findById(personId); }
+
+    public List<Person> getPersonByName(String name){
+        return personRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Person with name <"+name+"> is not found"));
+    }
 
     public Person createPerson(CreatePersonRequestOrDTO request){
         Person person = new Person();

@@ -1,9 +1,6 @@
 package com.example.sb_neo4j.controller;
 
-import com.example.sb_neo4j.dto.PersonIdDTO;
-import com.example.sb_neo4j.dto.PersonSkillDTO;
-import com.example.sb_neo4j.dto.PersonSkillsDTO;
-import com.example.sb_neo4j.dto.ProjectIdDTO;
+import com.example.sb_neo4j.dto.*;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
@@ -79,5 +76,10 @@ public class PersonController {
     @PostMapping("/updateSkillSetById")
     public ResponseEntity<Optional<Person>> updateSkillSet(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
+    }
+
+    @GetMapping("/getByName")
+    public ResponseEntity<List<Person>> getPersonByName(@RequestBody PersonNameDTO dto){
+        return new ResponseEntity<>(personService.getPersonByName(dto.getName()), HttpStatus.OK);
     }
 }
