@@ -35,12 +35,12 @@ public class ProjectService {
         return project;
     }
 
-    public ProjectPersonQueryResult updateRole(UpdateRoleDTO updateRoleDTO){
-        Project project = projectRepository.findById(updateRoleDTO.getProjectId())
-                .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+updateRoleDTO.getProjectId()));
-        Person person = personRepository.findById(updateRoleDTO.getPersonId())
-                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+updateRoleDTO.getPersonId()));
-        projectRepository.updateRole(updateRoleDTO.getProjectId(), updateRoleDTO.getPersonId(), updateRoleDTO.getRole());
+    public ProjectPersonQueryResult updateRole(Long projectId, Long personId, String role){
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+projectId));
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
+        projectRepository.updateRole(projectId, personId, role);
         return new ProjectPersonQueryResult(project, person);
     }
 

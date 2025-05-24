@@ -48,11 +48,7 @@ public class ProjectController {
     public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest request){
         Project project = projectService.createProject(request);
         projectService.member(project.getId(), request.getCreatorId());
-        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole( new UpdateRoleDTO(
-                project.getId(),
-                request.getCreatorId(),
-                "CREATOR")
-        );
+        projectService.updateRole(project.getId(), request.getCreatorId(), "CREATOR");
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
@@ -83,7 +79,7 @@ public class ProjectController {
 
     @PostMapping("/assignAdmin")
     public ResponseEntity<ProjectPersonResponseDTO> assignAdmin(@RequestBody ProjectPersonRequestDTO request){
-        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(new UpdateRoleDTO(request.getProjectId(), request.getPersonId(), "ADMIN"));
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(request.getProjectId(), request.getPersonId(), "ADMIN");
 
         ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
                 projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
@@ -92,7 +88,7 @@ public class ProjectController {
 
     @PostMapping("/assignContributor")
     public ResponseEntity<ProjectPersonResponseDTO> assignContributor(@RequestBody ProjectPersonRequestDTO request){
-        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(new UpdateRoleDTO(request.getProjectId(), request.getPersonId(), "CONTRIBUTOR"));
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(request.getProjectId(), request.getPersonId(), "CONTRIBUTOR");
 
         ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
                 projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
