@@ -30,9 +30,19 @@ public class ProjectService {
     public Project getById(Long projectId){ return projectRepository.findById(projectId)
             .orElseThrow(() -> new NoSuchElementException("Project with id: "+projectId+" is not found"));}
 
-    public Project createProject(CreateProjectRequest createProjectRequest){
+    private List<Project> getProjectsByPersonId(Long personId){
+        List<Long> projectIds = personRepository.getProjectsByPersonId(personId);
+        return projectRepository.findAllById(projectIds);
+    }
+
+    public Project createProject(Long creatorId, String title){
+        List<Project> creatorsProjects = getProjectsByPersonId(creatorId);
+        for (Project project : creatorsProjects){
+            if (project.getTitle().equals(title))
+                throw new IllegalStateException("Project with title '"+title+"' has already been created");
+        }
         Project project = new Project();
-        project.setTitle(createProjectRequest.getTitle());
+        project.setTitle(title);
         projectRepository.save(project);
         return project;
     }
