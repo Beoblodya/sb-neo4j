@@ -204,7 +204,20 @@ Output:
 json
     {
         "id": <ID>,
-        "title": "<PROJECT_TITLE>"
+        "title": "<PROJECT_TITLE>",
+        "creator": [
+            {
+                "name": "<NAME>",
+                "skillSet": ["<SKILL>", "<SKILL>", ...]
+            }
+        ],
+        "admins": [
+            {
+                "name": "<NAME>",
+                "skillSet": ["<SKILL>", "<SKILL>", ...]
+            },
+            ...
+        ]
     }
 
 POST /api/v1/Project/create
@@ -218,7 +231,13 @@ json
         "creatorId": "<CREATOR_ID"
     }
 
-Output: (аналогично input)
+Output: 
+json
+
+    {
+        "id": "<ID>",
+        "title": "<TITLE"
+    }
 
 POST /api/v1/Project/contains
 Создание связи между проектом и задачей.
@@ -260,7 +279,49 @@ json
         "personId": "<PERSON_ID>",
         "personName": "<PERSON_NAME>"
     }
-    
+
+POST /api/v1/Project/assignAdmin
+Повышение до админа
+
+Input:
+json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "personId": "<PERSON_ID>"
+    }
+
+Output:
+json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "projectTitle": "<PROJECT_TITLE>",
+        "personId": "<PERSON_ID>",
+        "personName": "<PERSON_NAME>"
+    } 
+
+POST /api/v1/Project/assignContributor
+Понижение до контрибьютора
+
+Input:
+json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "personId": "<PERSON_ID>"
+    }
+
+Output:
+json
+
+    {
+        "projectId": "<PROJECT_ID>",
+        "projectTitle": "<PROJECT_TITLE>",
+        "personId": "<PERSON_ID>",
+        "personName": "<PERSON_NAME>"
+    } 
+
 GET /api/v1/Project/tasks-of-project/{id}
 Получение всех тасков проекта
 
@@ -278,15 +339,44 @@ json
     ]
     
 GET /api/v1/Project/members-of-project/{id}
-получение всех участников проекта
+Получение всех участников проекта
+    
+Output:
+json
+    [
+        {
+            "name": "<NAME>",
+            "skillSet": ["<SKILL>", "<SKILL>", ...]
+        },
+        ...
+    ] 
+      
+GET /api/v1/Project/creator-of-project/{id}
+Получение создателя проекта
     
 Output:
 json
 
-    {
-        "name": "<NAME>",
-        "skillSet": ["<SKILL>", "<SKILL>", ...]
-    }
+    [
+        {
+            "name": "<NAME>",
+            "skillSet": ["<SKILL>", "<SKILL>", ...]
+        }
+    ]
+
+GET /api/v1/Project/admins-of-project/{id}
+Получение всех админов проекта
+    
+Output:
+json
+    [
+        {
+            "name": "<NAME>",
+            "skillSet": ["<SKILL>", "<SKILL>", ...]
+        },
+        ...
+    ] 
+ 
 ```
 
 -**Задачи (Task)**

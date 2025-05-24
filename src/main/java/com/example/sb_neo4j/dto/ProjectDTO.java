@@ -14,6 +14,6 @@ import java.util.Optional;
 @Setter
 public class ProjectDTO {
     private Project project;
-    private List<Person> Creator;
-    private List<Person> Admins;
+    private List<Person> creator;
+    private List<Person> admins;
 }
