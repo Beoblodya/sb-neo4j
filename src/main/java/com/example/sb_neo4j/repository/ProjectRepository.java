@@ -26,4 +26,7 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
 
     @Query("MATCH (p:Project)-[r:MEMBER]->(pe:Person) WHERE id(p)=$projectId RETURN id(pe)")
     List<Long> getProjectPeoplePID (Long projectId);
+
+    @Query("MATCH (p:Project)-[r:MEMBER]->(pe:Person) WHERE id(p)=$projectId AND r.role = $role RETURN id(pe)")
+    List<Long> getProjectPeopleByIDAndRole (Long projectId, String role);
 }

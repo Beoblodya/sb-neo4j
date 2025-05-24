@@ -35,8 +35,13 @@ public class ProjectService {
         return project;
     }
 
-    public void updateRole(Long projectId, Long personId, String role){
-        projectRepository.updateRole(projectId, personId, role);
+    public ProjectPersonQueryResult updateRole(UpdateRoleDTO updateRoleDTO){
+        Project project = projectRepository.findById(updateRoleDTO.getProjectId())
+                .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+updateRoleDTO.getProjectId()));
+        Person person = personRepository.findById(updateRoleDTO.getPersonId())
+                .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+updateRoleDTO.getPersonId()));
+        projectRepository.updateRole(updateRoleDTO.getProjectId(), updateRoleDTO.getPersonId(), updateRoleDTO.getRole());
+        return new ProjectPersonQueryResult(project, person);
     }
 
     public ProjectTaskQueryResult contains(Long projectId, Long taskId){
@@ -64,6 +69,11 @@ public class ProjectService {
 
     public List<Person> getProjectPeoplePrID (Long projectId){
         List<Long> peopleIds = projectRepository.getProjectPeoplePID(projectId);
+        return personRepository.findAllById(peopleIds);
+    }
+
+    public List<Person> getProjectPeopleByIDAndRole(Long projectId, String role){
+        List<Long> peopleIds = projectRepository.getProjectPeopleByIDAndRole(projectId, role);
         return personRepository.findAllById(peopleIds);
     }
 }

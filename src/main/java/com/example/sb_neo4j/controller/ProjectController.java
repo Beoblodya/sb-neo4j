@@ -36,8 +36,9 @@ public class ProjectController {
 
     //Получение проекта по id
     @GetMapping("/get-project/{id}")
-    public ResponseEntity<Optional<Project>> getById(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getById(id), HttpStatus.OK);
+    public ResponseEntity<ProjectDTO> getById(@PathVariable Long id){
+        ProjectDTO projectDTO = new ProjectDTO(projectService.getById(id), projectService.getProjectPeopleByIDAndRole(id, "CREATOR"), projectService.getProjectPeopleByIDAndRole(id, "ADMIN"));
+        return new ResponseEntity<>(projectDTO, HttpStatus.OK);
     }
 
     //Создание проектов команды в базе
@@ -47,10 +48,10 @@ public class ProjectController {
     public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest request){
         Project project = projectService.createProject(request);
         projectService.member(project.getId(), request.getCreatorId());
-        projectService.updateRole(
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole( new UpdateRoleDTO(
                 project.getId(),
                 request.getCreatorId(),
-                "CREATOR"
+                "CREATOR")
         );
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
@@ -80,6 +81,24 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/assignAdmin")
+    public ResponseEntity<ProjectPersonResponseDTO> assignAdmin(@RequestBody ProjectPersonRequestDTO request){
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(new UpdateRoleDTO(request.getProjectId(), request.getPersonId(), "ADMIN"));
+
+        ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
+                projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/assignContributor")
+    public ResponseEntity<ProjectPersonResponseDTO> assignContributor(@RequestBody ProjectPersonRequestDTO request){
+        ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(new UpdateRoleDTO(request.getProjectId(), request.getPersonId(), "CONTRIBUTOR"));
+
+        ProjectPersonResponseDTO response = new ProjectPersonResponseDTO(projectPersonQueryResult.getProject().getId(), projectPersonQueryResult.getProject().getTitle(),
+                projectPersonQueryResult.getPerson().getId(), projectPersonQueryResult.getPerson().getName());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/tasks-of-project/{id}")
     public ResponseEntity<List<Task>> getProjectTasksPrID(@PathVariable Long id){
         return new ResponseEntity<>(projectService.getProjectTasksPrID(id), HttpStatus.OK);
@@ -88,5 +107,19 @@ public class ProjectController {
     @GetMapping("/members-of-project/{id}")
     public ResponseEntity<List<Person>> getProjectPeoplePrID(@PathVariable Long id){
         return new ResponseEntity<>(projectService.getProjectPeoplePrID(id), HttpStatus.OK);
+    }
+    @GetMapping("/creator-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectCreatorById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CREATOR"), HttpStatus.OK);
+    }
+
+    @GetMapping("/admins-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectAdminsById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "ADMIN"), HttpStatus.OK);
+    }
+
+    @GetMapping("/contributors-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectContributorsById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CONTRIBUTOR"), HttpStatus.OK);
     }
 }
