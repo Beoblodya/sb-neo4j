@@ -41,6 +41,8 @@ public class TaskService {
     }
 
     public TaskQueryResult assign(Long personId, Long taskId){
+        if (taskRepository.areRelated(personId, taskId))
+            throw new IllegalStateException("Task-id:"+taskId+ " is already assigned to person-id:"+personId);
         Person person = personRepository.findById(personId)
                 .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
         Task task = taskRepository.findById(taskId)
@@ -50,6 +52,8 @@ public class TaskService {
     }
 
     public TaskQueryResult generated(Long personId, Long taskId){
+        if (taskRepository.areRelated(personId, taskId))
+            throw new IllegalStateException("Task-id:"+taskId+ " is already assigned to person-id:"+personId);
         Person person = personRepository.findById(personId)
                 .orElseThrow(() -> new IllegalArgumentException("Person not found. Person id: "+personId));
         Task task = taskRepository.findById(taskId)

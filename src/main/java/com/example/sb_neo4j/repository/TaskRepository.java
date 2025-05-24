@@ -23,4 +23,7 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
 
     @Query("MATCH (p:Person)-[:ASSIGNED]->(t:Task) WHERE id(t) = $taskId RETURN id(p)")
     List<Long> getPersonByTaskId(Long taskId);
+
+    @Query("RETURN EXISTS {MATCH (a)-[r]-(b) WHERE id(a) = $id1 AND id(b) = $id2}")
+    boolean areRelated(Long id1, Long id2);
 }

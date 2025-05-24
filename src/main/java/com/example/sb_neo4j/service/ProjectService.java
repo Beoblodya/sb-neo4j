@@ -38,6 +38,8 @@ public class ProjectService {
     }
 
     public ProjectPersonQueryResult updateRole(Long projectId, Long personId, String role){
+        if (projectRepository.getRole(personId, projectId).equals("CREATOR"))
+            throw new IllegalStateException("'CREATOR' role cannot be reassigned");
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+projectId));
         Person person = personRepository.findById(personId)
@@ -47,6 +49,8 @@ public class ProjectService {
     }
 
     public ProjectTaskQueryResult contains(Long projectId, Long taskId){
+        if (projectRepository.areRelated(projectId, taskId))
+            throw new IllegalStateException("Task-id:"+taskId+ " is already bound to project-id:"+projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: " +projectId));
         Task task = taskRepository.findById(taskId)
@@ -56,6 +60,8 @@ public class ProjectService {
     }
 
     public ProjectPersonQueryResult member(Long projectId, Long personId){
+        if (projectRepository.areRelated(projectId, personId))
+            throw new IllegalStateException("Person-id:"+personId+ " is already a contributor of project-id:"+projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Project not found. Project id: "+projectId));
         Person person = personRepository.findById(personId)
