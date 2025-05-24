@@ -37,7 +37,7 @@ public class TaskController {
 
     //Получение таска по id
     @GetMapping("/get-task/{id}")
-    public ResponseEntity<Optional<Task>> getById(@PathVariable Long id){
+    public ResponseEntity<Task> getById(@PathVariable Long id){
         return new ResponseEntity<>(taskService.getById(id), HttpStatus.OK);
     }
 

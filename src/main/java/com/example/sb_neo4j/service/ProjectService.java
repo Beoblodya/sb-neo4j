@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,8 @@ public class ProjectService {
 
     public List<Project> getAllProjects(){ return projectRepository.findAll(); }
 
-    public Optional<Project> getById(Long projectId){ return projectRepository.findById(projectId);}
+    public Project getById(Long projectId){ return projectRepository.findById(projectId)
+            .orElseThrow(() -> new NoSuchElementException("Project with id: "+projectId+" is not found"));}
 
     public Project createProject(CreateProjectRequest createProjectRequest){
         Project project = new Project();

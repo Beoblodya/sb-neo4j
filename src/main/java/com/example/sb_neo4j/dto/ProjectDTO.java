@@ -13,7 +13,7 @@ import java.util.Optional;
 @Getter
 @Setter
 public class ProjectDTO {
-    private Optional<Project> project;
+    private Project project;
     private List<Person> Creator;
     private List<Person> Admins;
 }

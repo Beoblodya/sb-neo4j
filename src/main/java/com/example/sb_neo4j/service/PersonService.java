@@ -13,6 +13,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Optional<Person> getById(Long personId){ return personRepository.findById(personId); }
+    public Person getById(Long personId){ return personRepository.findById(personId)
+            .orElseThrow(() -> new NoSuchElementException("Person with id: "+ personId+" is not found")); }
 
     public List<Person> getPersonByName(String name){
         return personRepository.findByName(name)
@@ -51,15 +53,18 @@ public class PersonService {
         return taskRepository.findAllById(taskIds);
     }
 
-    public Optional<Person> addSkills(Long personId, List<String> newSkills){
-        return personRepository.findById(personRepository.addSkills(personId, newSkills));
+    public Person addSkills(Long personId, List<String> newSkills){
+        return personRepository.findById(personRepository.addSkills(personId, newSkills))
+                .orElseThrow(() -> new NoSuchElementException("Skills were not added. Person id: "+personId));
     }
 
-    public Optional<Person> deleteASkill(Long personId, String skill){
-        return personRepository.findById(personRepository.deleteASkill(personId, skill));
+    public Person deleteASkill(Long personId, String skill){
+        return personRepository.findById(personRepository.deleteASkill(personId, skill))
+                .orElseThrow(() -> new NoSuchElementException("Skills were not deleted. Person id: "+personId));
     }
 
-    public Optional<Person> updateSkillSet(Long personId, List<String> newSkills){
-        return personRepository.findById(personRepository.updateSkillSet(personId, newSkills));
+    public Person updateSkillSet(Long personId, List<String> newSkills){
+        return personRepository.findById(personRepository.updateSkillSet(personId, newSkills))
+                .orElseThrow(() -> new NoSuchElementException("Skills were not updated. Person id: "+personId));
     }
 }

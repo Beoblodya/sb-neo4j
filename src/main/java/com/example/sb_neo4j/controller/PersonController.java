@@ -35,7 +35,7 @@ public class PersonController {
 
     //Получение участника команды по id
     @GetMapping("/get-person/{id}")
-    public ResponseEntity<Optional<Person>> getById(@PathVariable Long id){
+    public ResponseEntity<Person> getById(@PathVariable Long id){
         return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class PersonController {
     //На вход json с именем
     //На выход json с именем
     @PostMapping("/create")
-    public ResponseEntity<Optional<Person>> personCreate(@RequestBody CreatePersonRequestOrDTO request){
+    public ResponseEntity<Person> personCreate(@RequestBody CreatePersonRequestOrDTO request){
         Person person = personService.createPerson(request);
 
         return new ResponseEntity<>(personService.getById(person.getId()), HttpStatus.CREATED);
@@ -63,19 +63,19 @@ public class PersonController {
 
     //Добавление скиллов
     @PostMapping("/addSkillsById")
-    public ResponseEntity<Optional<Person>> addSkills(@RequestBody PersonSkillsDTO request){
+    public ResponseEntity<Person> addSkills(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.addSkills(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
     //Удаление скилла
     @PostMapping("/deleteASkillById")
-    public ResponseEntity<Optional<Person>> deleteASkill(@RequestBody PersonSkillDTO request){
+    public ResponseEntity<Person> deleteASkill(@RequestBody PersonSkillDTO request){
         return new ResponseEntity<>(personService.deleteASkill(request.getPersonId(), request.getSkill()), HttpStatus.OK);
     }
 
     //Обновление скиллов(замена массива)
     @PostMapping("/updateSkillSetById")
-    public ResponseEntity<Optional<Person>> updateSkillSet(@RequestBody PersonSkillsDTO request){
+    public ResponseEntity<Person> updateSkillSet(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,8 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getById(Long TaskId){ return taskRepository.findById(TaskId); }
+    public Task getById(Long taskId){ return taskRepository.findById(taskId)
+            .orElseThrow(() -> new NoSuchElementException("Task with id "+taskId+" is not found")); }
 
     public Task createTask(CreateTaskRequest createTaskRequest){
         Task task = new Task();
