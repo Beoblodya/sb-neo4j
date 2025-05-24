@@ -3,6 +3,7 @@ package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
+import com.example.sb_neo4j.dto.UpdateRoleDTO;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
@@ -32,6 +33,10 @@ public class ProjectService {
         project.setTitle(createProjectRequest.getTitle());
         projectRepository.save(project);
         return project;
+    }
+
+    public void updateRole(Long projectId, Long personId, String role){
+        projectRepository.updateRole(projectId, personId, role);
     }
 
     public ProjectTaskQueryResult contains(Long projectId, Long taskId){

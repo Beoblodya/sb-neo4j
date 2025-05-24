@@ -1,4 +1,4 @@
-package com.example.sb_neo4j.request;
+package com.example.sb_neo4j.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateProjectRequest {
-    private String title;
-    private Long creatorId;
+public class UpdateRoleDTO {
+    private Long projectId;
+    private Long personId;
+    private String role;
 }

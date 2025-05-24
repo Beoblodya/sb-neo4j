@@ -214,7 +214,8 @@ Input:
 json
 
     {
-        "title": "<TITLE>"
+        "title": "<TITLE>",
+        "creatorId": "<CREATOR_ID"
     }
 
 Output: (аналогично input)

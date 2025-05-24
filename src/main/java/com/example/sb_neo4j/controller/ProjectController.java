@@ -46,7 +46,12 @@ public class ProjectController {
     @PostMapping("/create")
     public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest request){
         Project project = projectService.createProject(request);
-
+        projectService.member(project.getId(), request.getCreatorId());
+        projectService.updateRole(
+                project.getId(),
+                request.getCreatorId(),
+                "CREATOR"
+        );
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 

@@ -14,8 +14,12 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
     void contains(Long projectId, Long taskId);
 
     @Query("MATCH (project:Project), (person:Person) WHERE id(project) = $projectId AND id(person) = $personId " +
-            "CREATE (project)-[:MEMBER]->(person)")
+            "CREATE (project)-[:MEMBER {role: 'CONTRIBUTOR'}]->(person)")
     void member(Long projectId, Long personId);
+
+    @Query("MATCH (pr:Project)-[r:MEMBER]-(pe:Person) WHERE id(pr) = $projectId AND id(pe) = $personId " +
+            "SET r.role = $role")
+    void updateRole(Long projectId, Long personId, String role);
 
     @Query("MATCH (p:Project)-[r:CONTAINS]->(t:Task) WHERE id(p)=$projectId RETURN id(t)")
     List<Long> getProjectTasksPID (Long projectId);
