@@ -33,4 +33,13 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
 
     @Query("RETURN EXISTS {MATCH (a)-[r]-(b) WHERE id(a) = $id1 AND id(b) = $id2}")
     boolean areRelated(Long id1, Long id2);
+
+    @Query("MATCH (t:Task) WHERE id(t)=$taskId DETACH DELETE t")
+    void deleteTaskById(Long taskId);
+
+    @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.title=$title")
+    void changeTaskTitle(Long taskId, String title);
+
+    @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.content=$content")
+    void changeTaskContent(Long taskId, String content);
 }

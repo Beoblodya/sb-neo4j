@@ -33,6 +33,11 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
+    @GetMapping("/get-responsible-for-task/{id}")
+    public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
+        return new ResponseEntity<>(taskService.getPersonByTaskId(id), HttpStatus.OK);
+    }
+
     //Получение таска по id
     @GetMapping("/get-task/{id}")
     public ResponseEntity<Task> getById(@PathVariable Long id){
@@ -48,7 +53,6 @@ public class TaskController {
 
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
-
 
     //Создание связи между таском и участником
     //На вход json с именем участника и названием таска
@@ -74,12 +78,7 @@ public class TaskController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/get-responsible-for-task/{id}")
-    public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
-        return new ResponseEntity<>(taskService.getPersonByTaskId(id), HttpStatus.OK);
-    }
-
-    @PostMapping("/close")
+    @PutMapping("/close")
     public ResponseEntity<ChangeTaskStatusDTO> closeTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.closeTask(dto.getTaskId(), dto.getIssuerId())?
@@ -87,11 +86,30 @@ public class TaskController {
 
     }
 
-    @PostMapping("/open")
+    @PutMapping("/open")
     public ResponseEntity<ChangeTaskStatusDTO> openTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.openTask(dto.getTaskId(), dto.getIssuerId())?
                 HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
 
+    }
+
+    @PutMapping("/changeTitle")
+    public ResponseEntity<ChangeTaskDTO> changeTaskTitle(@RequestBody ChangeTaskDTO dto){
+        return new ResponseEntity<>(dto,
+                taskService.changeTaskTitle(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
+                        HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @PutMapping("/changeContent")
+    public ResponseEntity<ChangeTaskDTO> changeTaskContent(@RequestBody ChangeTaskDTO dto){
+        return new ResponseEntity<>(dto,
+                taskService.changeTaskContent(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
+                        HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteTaskById(@PathVariable Long id){
+        taskService.deleteTaskById(id);
     }
 }

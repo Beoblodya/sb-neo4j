@@ -41,16 +41,6 @@ public class PersonController {
         return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
     }
 
-    //Создание участника команды в базе
-    //На вход json с именем
-    //На выход json с именем
-    @PostMapping("/create")
-    public ResponseEntity<Person> personCreate(@RequestBody CreatePersonRequestOrDTO request){
-        Person person = personService.createPerson(request);
-
-        return new ResponseEntity<>(personService.getById(person.getId()), HttpStatus.CREATED);
-    }
-
     //Поучение проектов по id участника команды
     @GetMapping("/projects-of-person/{id}")
     public ResponseEntity<List<Project>> getProjectsByPersonId(@PathVariable Long id){
@@ -63,26 +53,46 @@ public class PersonController {
         return new ResponseEntity<>(personService.getTasksByPersonId(id), HttpStatus.OK);
     }
 
+    @GetMapping("/get-person-by-name/{name}")
+    public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name){
+        return new ResponseEntity<>(personService.getPersonByName(name), HttpStatus.OK);
+    }
+
+    //Создание участника команды в базе
+    //На вход json с именем
+    //На выход json с именем
+    @PostMapping("/create")
+    public ResponseEntity<Person> personCreate(@RequestBody CreatePersonRequestOrDTO request){
+        Person person = personService.createPerson(request);
+
+        return new ResponseEntity<>(personService.getById(person.getId()), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/changeName")
+    public ResponseEntity<Person> changeName(@RequestBody PersonNewNameDTO request){
+        return new ResponseEntity<>(personService.changeName(request.getPersonId(), request.getNewName()), HttpStatus.OK);
+    }
+
     //Добавление скиллов
-    @PostMapping("/addSkillsById")
+    @PutMapping("/addSkillsById")
     public ResponseEntity<Person> addSkills(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.addSkills(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
-    //Удаление скилла
-    @PostMapping("/deleteASkillById")
-    public ResponseEntity<Person> deleteASkill(@RequestBody PersonSkillDTO request){
-        return new ResponseEntity<>(personService.deleteASkill(request.getPersonId(), request.getSkill()), HttpStatus.OK);
-    }
-
     //Обновление скиллов(замена массива)
-    @PostMapping("/updateSkillSetById")
+    @PutMapping("/updateSkillSetById")
     public ResponseEntity<Person> updateSkillSet(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
-    @GetMapping("/get-person-by-name/{name}")
-    public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name){
-        return new ResponseEntity<>(personService.getPersonByName(name), HttpStatus.OK);
+    //Удаление скилла
+    @DeleteMapping("/deleteASkillById")
+    public ResponseEntity<Person> deleteASkill(@RequestBody PersonSkillDTO request){
+        return new ResponseEntity<>(personService.deleteASkill(request.getPersonId(), request.getSkill()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/dropTask")
+    public void dropTask(@RequestBody TaskAssignmentRequestDTO requestDTO){
+        personService.dropTask(requestDTO.getPersonId(), requestDTO.getTaskId());
     }
 }

@@ -45,4 +45,10 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
 
     @Query("MATCH (pe:Person)-[r]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId RETURN r.role LIMIT 1")
     String getRole(Long personId, Long projectId);
+
+    @Query("MATCH (p:Project) WHERE id(project) = $projectId SET project.title = $newTitle RETURN id(project)")
+    Long changeTitle(Long projectId, String newTitle);
+
+    @Query("MATCH (p:Project) WHERE id(project) = $projectId DETACH DELETE project")
+    void deleteProjectById(Long projectId);
 }

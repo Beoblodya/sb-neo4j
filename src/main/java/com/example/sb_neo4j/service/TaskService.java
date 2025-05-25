@@ -58,11 +58,6 @@ public class TaskService {
         return new TaskQueryResult(task, person);
     }
 
-//    public Task findTaskByTitle(String header) {
-//
-//        return taskRepository.findTaskByTitle(header)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
-//    }
 
     public boolean closeTask(Long taskId, Long issuerId){
         if (!taskRepository.areRelated(taskId, issuerId))
@@ -80,8 +75,30 @@ public class TaskService {
         return true;
     }
 
+    public boolean changeTaskTitle(Long taskId, Long issuerId, String title){
+        if (!taskRepository.areRelated(taskId, issuerId))
+            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
+                return false;
+        taskRepository.changeTaskTitle(taskId, title);
+        return true;
+    }
+
+    public boolean changeTaskContent(Long taskId, Long issuerId, String content){
+        if (!taskRepository.areRelated(taskId, issuerId))
+            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
+                return false;
+        taskRepository.changeTaskContent(taskId, content);
+        return true;
+    }
+
     public List<Person> getPersonByTaskId(Long taskId){
         List<Long> personIds = taskRepository.getPersonByTaskId(taskId);
         return personRepository.findAllById(personIds);
     }
+
+    public void deleteTaskById(Long taskId){
+        taskRepository.deleteTaskById(taskId);
+    }
+
+
 }

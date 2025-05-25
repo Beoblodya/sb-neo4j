@@ -53,6 +53,11 @@ public class PersonService {
         return taskRepository.findAllById(taskIds);
     }
 
+    public Person changeName(Long personId, String newName){
+        return personRepository.findById(personRepository.changeName(personId, newName))
+                .orElseThrow(() -> new NoSuchElementException("Name was not changed. Person id: "+personId));
+    }
+
     public Person addSkills(Long personId, List<String> newSkills){
         return personRepository.findById(personRepository.addSkills(personId, newSkills))
                 .orElseThrow(() -> new NoSuchElementException("Skills were not added. Person id: "+personId));
@@ -66,5 +71,17 @@ public class PersonService {
     public Person updateSkillSet(Long personId, List<String> newSkills){
         return personRepository.findById(personRepository.updateSkillSet(personId, newSkills))
                 .orElseThrow(() -> new NoSuchElementException("Skills were not updated. Person id: "+personId));
+    }
+
+    public void deletePersonById(Long personId){
+        personRepository.deletePersonById(personId);
+    }
+
+    public void dropTask(Long personId, Long taskId){
+        personRepository.dropTask(personId, taskId);
+    }
+
+    public void dropFromProject(Long personId, Long projectId){
+        personRepository.dropFromProject(personId, projectId);
     }
 }
