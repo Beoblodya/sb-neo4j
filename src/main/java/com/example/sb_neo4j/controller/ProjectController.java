@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/Project")
@@ -52,6 +51,15 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
+    @GetMapping("/get-open-tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getOpen(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getOpenTasksOfProject(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-closed-tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getClosed(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getClosedTasksOfProject(id), HttpStatus.OK);
+    }
 
     //Создание связи между проектом и таском
     //На вход json с названием проекта и названием таска

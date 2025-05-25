@@ -11,7 +11,11 @@ import java.util.Optional;
 public interface TaskRepository extends Neo4jRepository<Task, Long> {
     Optional<Task> findTaskByTitle(String title);
 
+    @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.status='closed'")
+    void closeTask(Long taskId);
 
+    @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.status='open'")
+    void openTask(Long taskId);
 
     @Query("MATCH (person:Person), (task:Task) WHERE id(person) = $personId AND id(task) = $taskId " +
             "CREATE (person)-[:ASSIGNED]->(task)")
@@ -23,6 +27,9 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
 
     @Query("MATCH (p:Person)-[:ASSIGNED]->(t:Task) WHERE id(t) = $taskId RETURN id(p)")
     List<Long> getPersonByTaskId(Long taskId);
+
+    @Query("MATCH (t:Task)-[r:CONTAINS]-(p:Project) WHERE id(t)=$taskId RETURN id(p)")
+    Long getProjectByTaskId(Long taskId);
 
     @Query("RETURN EXISTS {MATCH (a)-[r]-(b) WHERE id(a) = $id1 AND id(b) = $id2}")
     boolean areRelated(Long id1, Long id2);

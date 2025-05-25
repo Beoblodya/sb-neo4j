@@ -2,10 +2,7 @@ package com.example.sb_neo4j.controller;
 
 
 import com.example.sb_neo4j.QueryResults.TaskQueryResult;
-import com.example.sb_neo4j.dto.TaskAssignmentDTO;
-import com.example.sb_neo4j.dto.TaskAssignmentRequestDTO;
-import com.example.sb_neo4j.dto.TaskAssignmentResponseDTO;
-import com.example.sb_neo4j.dto.TaskIdDTO;
+import com.example.sb_neo4j.dto.*;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/Task")
@@ -79,5 +75,21 @@ public class TaskController {
     @GetMapping("/get-responsible-for-task/{id}")
     public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
         return new ResponseEntity<>(taskService.getPersonByTaskId(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/close")
+    public ResponseEntity<ChangeTaskStatusDTO> closeTask(@RequestBody ChangeTaskStatusDTO dto){
+        return new ResponseEntity<>(dto,
+                taskService.closeTask(dto.getTaskId(), dto.getIssuerId())?
+                HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+
+    }
+
+    @PostMapping("/open")
+    public ResponseEntity<ChangeTaskStatusDTO> openTask(@RequestBody ChangeTaskStatusDTO dto){
+        return new ResponseEntity<>(dto,
+                taskService.openTask(dto.getTaskId(), dto.getIssuerId())?
+                HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+
     }
 }

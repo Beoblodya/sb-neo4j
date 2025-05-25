@@ -3,20 +3,17 @@ package com.example.sb_neo4j.service;
 
 import com.example.sb_neo4j.QueryResults.ProjectPersonQueryResult;
 import com.example.sb_neo4j.QueryResults.ProjectTaskQueryResult;
-import com.example.sb_neo4j.dto.UpdateRoleDTO;
 import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.ProjectRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
-import com.example.sb_neo4j.request.CreateProjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +26,18 @@ public class ProjectService {
 
     public Project getById(Long projectId){ return projectRepository.findById(projectId)
             .orElseThrow(() -> new NoSuchElementException("Project with id: "+projectId+" is not found"));}
+
+    public List<Task> getOpenTasksOfProject(Long projectId){
+        List<Long> tasksIds = projectRepository.getOpenTasksOfProject(projectId)
+                .orElseThrow(() -> new NoSuchElementException("No opened tasks in project-:id"+projectId));
+        return taskRepository.findAllById(tasksIds);
+    }
+
+    public List<Task> getClosedTasksOfProject(Long projectId){
+        List<Long> tasksIds =  projectRepository.getClosedTasksOfProject(projectId)
+                .orElseThrow(() -> new NoSuchElementException("No closed tasks in project-:id"+projectId));
+        return taskRepository.findAllById(tasksIds);
+    }
 
     private List<Project> getProjectsByPersonId(Long personId){
         List<Long> projectIds = personRepository.getProjectsByPersonId(personId);

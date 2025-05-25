@@ -8,19 +8,15 @@ import com.example.sb_neo4j.repository.PersonRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
-    @Autowired
+
     private final PersonRepository personRepository;
     private final TaskRepository taskRepository;
 
@@ -62,10 +58,26 @@ public class TaskService {
         return new TaskQueryResult(task, person);
     }
 
-    public Task findTaskByTitle(String header) {
+//    public Task findTaskByTitle(String header) {
+//
+//        return taskRepository.findTaskByTitle(header)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+//    }
 
-        return taskRepository.findTaskByTitle(header)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+    public boolean closeTask(Long taskId, Long issuerId){
+        if (!taskRepository.areRelated(taskId, issuerId))
+            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
+                return false;
+        taskRepository.closeTask(taskId);
+        return true;
+    }
+
+    public boolean openTask(Long taskId, Long issuerId){
+        if (!taskRepository.areRelated(taskId, issuerId))
+            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
+                return false;
+        taskRepository.openTask(taskId);
+        return true;
     }
 
     public List<Person> getPersonByTaskId(Long taskId){

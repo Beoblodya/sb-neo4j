@@ -239,6 +239,38 @@ json
         "title": "<TITLE"
     }
 
+GET /api/v1/Project//get-open-tasks-of-project/{id}
+Возвращает открытые задачи проекта
+
+Output:
+json
+
+    [
+        {
+          "id": "<TASK_ID>",
+          "title": "<TASK_TITLE>",
+          "content": "<CONTENT>",
+          "status": "open"
+        },
+        ... 
+    ]
+    
+GET /api/v1/Project//get-closed-tasks-of-project/{id}
+Возвращает зыкрытые задачи проекта
+
+Output:
+json
+
+    [
+        {
+          "id": "<TASK_ID>",
+          "title": "<TASK_TITLE>",
+          "content": "<CONTENT>",
+          "status": "closed"
+        },
+        ... 
+    ]
+
 POST /api/v1/Project/contains
 Создание связи между проектом и задачей.
 
@@ -442,7 +474,33 @@ json
         "taskId": "<TASK_ID>",
         "taskTitle": "<TASK_TITLE>"
     }
-    
+
+POST api/v1/Task/close
+Закрытие задачи исполнителем, админом или создателем проекта
+
+Input:
+json
+
+    {
+      "taskId": "<TASK_ID>"
+      "issuerId": "<PERSON_ID>"
+    }
+
+Output: (аналогично input)
+
+POST api/v1/Task/open
+Открытие задачи исполнителем, админом или создателем проекта
+
+Input:
+json
+
+    {
+      "taskId": "<TASK_ID>"
+      "issuerId": "<PERSON_ID>"
+    }
+
+Output: (аналогично input)
+
 GET /api/v1/Task/get-responsible-for-task/{id}
 Получение участников по id таска
    

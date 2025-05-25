@@ -26,4 +26,7 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
     @Query("MATCH (pe:Person) WHERE id(pe)=$personId SET pe.skillSet = $newSkills RETURN id(pe)")
     Long updateSkillSet(Long personId, List<String> newSkills);
+
+    @Query("RETURN EXISTS {MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId AND (r.role='CREATOR' OR r.role='ADMIN')}")
+    boolean isPersonOpInProject(Long personId, Long projectId);
 }
