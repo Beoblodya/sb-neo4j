@@ -7,6 +7,7 @@ import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Task")
 @RestController
 @RequestMapping("api/v1/Task")
 public class TaskController {

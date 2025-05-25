@@ -4,6 +4,7 @@ import com.example.sb_neo4j.dto.AIResponseDTO;
 import com.example.sb_neo4j.service.AIService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+@Tag(name = "AI")
 @RestController
 @RequestMapping("api/v1/AI")
 public class AIController {

@@ -7,6 +7,7 @@ import com.example.sb_neo4j.service.GithubService;
 import com.example.sb_neo4j.util.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "GitHub")
 @Controller
 @RequestMapping("api/v1/GithubAPI")
 public class GithubController {

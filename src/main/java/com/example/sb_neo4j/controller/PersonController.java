@@ -6,6 +6,7 @@ import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import com.example.sb_neo4j.service.PersonService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Person")
 @RestController
 @RequestMapping("api/v1/Person")
 public class PersonController {
