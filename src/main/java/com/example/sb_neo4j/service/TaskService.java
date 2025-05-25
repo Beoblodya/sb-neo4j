@@ -58,6 +58,12 @@ public class TaskService {
         return new TaskQueryResult(task, person);
     }
 
+//    public Task findTaskByTitle(String header) {
+//
+//        return taskRepository.findTaskByTitle(header)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+//    }
+
     public boolean closeTask(Long taskId, Long issuerId){
         if (!taskRepository.areRelated(taskId, issuerId))
             if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
@@ -77,9 +83,5 @@ public class TaskService {
     public List<Person> getPersonByTaskId(Long taskId){
         List<Long> personIds = taskRepository.getPersonByTaskId(taskId);
         return personRepository.findAllById(personIds);
-    }
-
-    public void deleteTaskById(Long taskId){
-        taskRepository.deleteById(taskId);
     }
 }
