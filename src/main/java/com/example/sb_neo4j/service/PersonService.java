@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,22 +59,14 @@ public class PersonService {
                 .orElseThrow(() -> new NoSuchElementException("Name was not changed. Person id: "+personId));
     }
 
-    public Person addSkills(Long personId, List<String> newSkills){
-        return personRepository.findById(personRepository.addSkills(personId, newSkills))
-                .orElseThrow(() -> new NoSuchElementException("Skills were not added. Person id: "+personId));
-    }
-
-    public Person deleteASkill(Long personId, String skill){
-        return personRepository.findById(personRepository.deleteASkill(personId, skill))
-                .orElseThrow(() -> new NoSuchElementException("Skills were not deleted. Person id: "+personId));
-    }
-
     public Person updateSkillSet(Long personId, List<String> newSkills){
         return personRepository.findById(personRepository.updateSkillSet(personId, newSkills))
                 .orElseThrow(() -> new NoSuchElementException("Skills were not updated. Person id: "+personId));
     }
 
-    public void deletePersonById(Long personId){
+    public void deleteSelf(Long personId){
+        if (!personRepository.getProjectsByPersonId(personId).isEmpty())
+            throw new IllegalStateException("Person-id:"+personId+" cannot be deleted because he is the CREATOR");
         personRepository.deletePersonById(personId);
     }
 
@@ -81,7 +74,15 @@ public class PersonService {
         personRepository.dropTask(personId, taskId);
     }
 
-    public void dropFromProject(Long personId, Long projectId){
+    public void dropFromProject(Long personId, Long projectId, Long issuerId){
+        if (projectRepository.personIsCreatorOfProject(personId, projectId)) {
+            throw new IllegalStateException("Deletion of person-id:" + personId + " by person-id:" + issuerId + " is not allowed");
+        }
+
+        if (!personRepository.isPersonOpInProject(issuerId, projectId) && !issuerId.equals(personId)) {
+            throw new IllegalStateException("Deletion of person-id:" + personId + " by person-id:" + issuerId + " is not allowed");
+        }
+
         personRepository.dropFromProject(personId, projectId);
     }
 }

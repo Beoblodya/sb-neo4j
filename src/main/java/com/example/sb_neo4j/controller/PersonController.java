@@ -32,7 +32,10 @@ public class PersonController {
     //Получение всех участников команды из базы
     @GetMapping("/getAll")
     public ResponseEntity<List<Person>> personIndex(){
-        return new ResponseEntity<>(personService.getAllPerson(), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getAllPerson(),
+                personService.getAllPerson().isEmpty() ?
+                HttpStatus.OK:
+                HttpStatus.NO_CONTENT);
     }
 
     //Получение участника команды по id
@@ -73,26 +76,26 @@ public class PersonController {
         return new ResponseEntity<>(personService.changeName(request.getPersonId(), request.getNewName()), HttpStatus.OK);
     }
 
-    //Добавление скиллов
-    @PutMapping("/addSkillsById")
-    public ResponseEntity<Person> addSkills(@RequestBody PersonSkillsDTO request){
-        return new ResponseEntity<>(personService.addSkills(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
-    }
-
     //Обновление скиллов(замена массива)
     @PutMapping("/updateSkillSetById")
     public ResponseEntity<Person> updateSkillSet(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
-    //Удаление скилла
-    @DeleteMapping("/deleteASkillById")
-    public ResponseEntity<Person> deleteASkill(@RequestBody PersonSkillDTO request){
-        return new ResponseEntity<>(personService.deleteASkill(request.getPersonId(), request.getSkill()), HttpStatus.OK);
+    @DeleteMapping("/dropTask")
+    public ResponseEntity<TaskAssignmentRequestDTO> dropTask(@RequestBody TaskAssignmentRequestDTO requestDTO){
+        personService.dropTask(requestDTO.getPersonId(), requestDTO.getTaskId());
+        return new ResponseEntity<>(requestDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/dropTask")
-    public void dropTask(@RequestBody TaskAssignmentRequestDTO requestDTO){
-        personService.dropTask(requestDTO.getPersonId(), requestDTO.getTaskId());
+    @DeleteMapping("/deleteSelf/{personId}")
+    public ResponseEntity<String> deleteSelf(@PathVariable Long personId){
+        personService.deleteSelf(personId);
+        return new ResponseEntity<>("Person-id:"+personId+" has been deleted from database", HttpStatus.OK);    }
+
+    @DeleteMapping("/dropProject")
+    public ResponseEntity<DropFromProject> dropPersonFromProject(@RequestBody DropFromProject dto){
+        personService.dropFromProject(dto.getNodeId(), dto.getProjectId(), dto.getIssuerId());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

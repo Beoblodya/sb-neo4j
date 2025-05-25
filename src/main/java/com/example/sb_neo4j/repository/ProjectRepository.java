@@ -43,12 +43,15 @@ public interface ProjectRepository extends Neo4jRepository<Project, Long> {
     @Query("RETURN EXISTS {MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND pr.title=$projectTitle AND r.role='CREATOR'}")
     boolean personIsCreatorOfProject(Long personId, String projectTitle);
 
+    @Query("RETURN EXISTS {MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId AND r.role='CREATOR'}")
+    boolean personIsCreatorOfProject(Long personId, Long projectId);
+
     @Query("MATCH (pe:Person)-[r]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId RETURN r.role LIMIT 1")
     String getRole(Long personId, Long projectId);
 
     @Query("MATCH (p:Project) WHERE id(project) = $projectId SET project.title = $newTitle RETURN id(project)")
     Long changeTitle(Long projectId, String newTitle);
 
-    @Query("MATCH (p:Project) WHERE id(project) = $projectId DETACH DELETE project")
+    @Query("MATCH (p:Project) WHERE id(p) = $projectId DETACH DELETE p")
     void deleteProjectById(Long projectId);
 }

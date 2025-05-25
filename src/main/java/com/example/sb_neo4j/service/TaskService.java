@@ -96,8 +96,12 @@ public class TaskService {
         return personRepository.findAllById(personIds);
     }
 
-    public void deleteTaskById(Long taskId){
+    public boolean deleteTaskById(Long taskId, Long issuerId){
+            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
+                if (!taskRepository.areRelated(taskId, issuerId))
+                    return false;
         taskRepository.deleteTaskById(taskId);
+        return true;
     }
 
 

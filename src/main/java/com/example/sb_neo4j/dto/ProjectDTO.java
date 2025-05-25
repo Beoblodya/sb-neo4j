@@ -16,4 +16,5 @@ public class ProjectDTO {
     private Project project;
     private List<Person> creator;
     private List<Person> admins;
+    private List<Person> contributors;
 }

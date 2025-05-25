@@ -82,7 +82,7 @@ public class TaskController {
     public ResponseEntity<ChangeTaskStatusDTO> closeTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.closeTask(dto.getTaskId(), dto.getIssuerId())?
-                HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+                HttpStatus.OK : HttpStatus.FORBIDDEN);
 
     }
 
@@ -90,7 +90,7 @@ public class TaskController {
     public ResponseEntity<ChangeTaskStatusDTO> openTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.openTask(dto.getTaskId(), dto.getIssuerId())?
-                HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+                HttpStatus.OK : HttpStatus.FORBIDDEN);
 
     }
 
@@ -98,18 +98,20 @@ public class TaskController {
     public ResponseEntity<ChangeTaskDTO> changeTaskTitle(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskTitle(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
-                        HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+                        HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
     @PutMapping("/changeContent")
     public ResponseEntity<ChangeTaskDTO> changeTaskContent(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskContent(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
-                        HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
+                        HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping("/delete")
-    public void deleteTaskById(@PathVariable Long id){
-        taskService.deleteTaskById(id);
+    public ResponseEntity<TaskAssignmentRequestDTO> deleteTaskById(@RequestBody TaskAssignmentRequestDTO dto){
+        return new ResponseEntity<>(dto,
+                taskService.deleteTaskById(dto.getTaskId(), dto.getPersonId())?
+                HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 }

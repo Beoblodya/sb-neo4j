@@ -106,7 +106,14 @@ public class ProjectService {
                 .orElseThrow(() -> new NoSuchElementException("Title was not changed. Person id: "+projectId));
     }
 
-    public void deleteProjectById(Long projectId){
+    public boolean deleteProjectById(Long projectId, Long issuerId){
+        if (!projectRepository.personIsCreatorOfProject(issuerId, projectId))
+            return false;
+        List<Long> tasksIds = projectRepository.getProjectTasksPID(projectId);
+        for (Long taskId : tasksIds){
+            taskRepository.deleteTaskById(taskId);
+        }
         projectRepository.deleteProjectById(projectId);
+        return true;
     }
 }

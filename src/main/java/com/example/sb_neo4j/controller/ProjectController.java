@@ -38,7 +38,10 @@ public class ProjectController {
     //Получение проекта по id
     @GetMapping("/get-project/{id}")
     public ResponseEntity<ProjectDTO> getById(@PathVariable Long id){
-        ProjectDTO projectDTO = new ProjectDTO(projectService.getById(id), projectService.getProjectPeopleByIDAndRole(id, "CREATOR"), projectService.getProjectPeopleByIDAndRole(id, "ADMIN"));
+        ProjectDTO projectDTO = new ProjectDTO(projectService.getById(id),
+                projectService.getProjectPeopleByIDAndRole(id, "CREATOR"),
+                projectService.getProjectPeopleByIDAndRole(id, "ADMIN"),
+                projectService.getProjectPeopleByIDAndRole(id, "CONTRIBUTOR"));
         return new ResponseEntity<>(projectDTO, HttpStatus.OK);
     }
 
@@ -130,4 +133,10 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<ProjectPersonRequestDTO> deleteProject (@RequestBody ProjectPersonRequestDTO dto){
+        return new ResponseEntity<>(dto,
+                projectService.deleteProjectById(dto.getProjectId(), dto.getPersonId())?
+                HttpStatus.OK : HttpStatus.FORBIDDEN);
+    }
 }
