@@ -35,7 +35,10 @@ public class TaskController {
 
     @GetMapping("/get-responsible-for-task/{id}")
     public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
-        return new ResponseEntity<>(taskService.getPersonByTaskId(id), HttpStatus.OK);
+        List<Person> people = taskService.getPersonByTaskId(id);
+        return new ResponseEntity<>(people,
+                people.isEmpty()?
+                    HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
     //Получение таска по id

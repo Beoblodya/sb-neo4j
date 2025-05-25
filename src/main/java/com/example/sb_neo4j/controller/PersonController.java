@@ -32,10 +32,10 @@ public class PersonController {
     //Получение всех участников команды из базы
     @GetMapping("/getAll")
     public ResponseEntity<List<Person>> personIndex(){
-        return new ResponseEntity<>(personService.getAllPerson(),
-                personService.getAllPerson().isEmpty() ?
-                HttpStatus.OK:
-                HttpStatus.NO_CONTENT);
+        List<Person> people = personService.getAllPerson();
+        return new ResponseEntity<>(people,
+                people.isEmpty()?
+                    HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
     //Получение участника команды по id
@@ -47,13 +47,19 @@ public class PersonController {
     //Поучение проектов по id участника команды
     @GetMapping("/projects-of-person/{id}")
     public ResponseEntity<List<Project>> getProjectsByPersonId(@PathVariable Long id){
-        return new ResponseEntity<>(personService.getProjectsByPersonId(id), HttpStatus.OK);
+        List<Project> projects = personService.getProjectsByPersonId(id);
+        return new ResponseEntity<>(projects,
+                projects.isEmpty()?
+                        HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
     //Получение тасков по id участника команды
     @GetMapping("/tasks-of-person/{id}")
     public ResponseEntity<List<Task>> getTasksByPersonId(@PathVariable Long id){
-        return new ResponseEntity<>(personService.getTasksByPersonId(id), HttpStatus.OK);
+        List<Task> tasks = personService.getTasksByPersonId(id);
+        return new ResponseEntity<>(tasks,
+                tasks.isEmpty()?
+                        HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
     @GetMapping("/get-person-by-name/{name}")
