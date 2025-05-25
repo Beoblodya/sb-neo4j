@@ -29,4 +29,16 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
     @Query("RETURN EXISTS {MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId AND (r.role='CREATOR' OR r.role='ADMIN')}")
     boolean isPersonOpInProject(Long personId, Long projectId);
+
+    @Query("MATCH (pe:Person) WHERE id(pe)=$personId DETACH DELETE pe")
+    void deletePersonById(Long personId);
+
+    @Query("MATCH (p:Person)-[r:ASSIGNED]->(t:Task) WHERE id(p) = $personId AND id(p) = $taskId DELETE r")
+    void dropTask(Long personId, Long taskId);
+
+    @Query("MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId DELETE r")
+    void dropFromProject(Long personId, Long projectId);
+
+    @Query("MATCH (pe:Person) WHERE id(pe)=$personId SET pe.name = $newName RETURN id(pe)")
+    Long changeName(Long personId, String newName);
 }

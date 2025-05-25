@@ -100,4 +100,13 @@ public class ProjectService {
         List<Long> peopleIds = projectRepository.getProjectPeopleByIDAndRole(projectId, role);
         return personRepository.findAllById(peopleIds);
     }
+
+    public Project changeTitle(Long projectId, String newTitle){
+        return projectRepository.findById(projectRepository.changeTitle(projectId, newTitle))
+                .orElseThrow(() -> new NoSuchElementException("Title was not changed. Person id: "+projectId));
+    }
+
+    public void deleteProjectById(Long projectId){
+        projectRepository.deleteProjectById(projectId);
+    }
 }

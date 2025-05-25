@@ -40,6 +40,41 @@ public class ProjectController {
         return new ResponseEntity<>(projectDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/get-open-tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getOpen(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getOpenTasksOfProject(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-closed-tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getClosed(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getClosedTasksOfProject(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getProjectTasksPrID(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectTasksPrID(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/members-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectPeoplePrID(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeoplePrID(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/creator-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectCreatorById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CREATOR"), HttpStatus.OK);
+    }
+
+    @GetMapping("/admins-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectAdminsById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "ADMIN"), HttpStatus.OK);
+    }
+
+    @GetMapping("/contributors-of-project/{id}")
+    public ResponseEntity<List<Person>> getProjectContributorsById(@PathVariable Long id){
+        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CONTRIBUTOR"), HttpStatus.OK);
+    }
+
     //Создание проектов команды в базе
     //На вход json с названием
     //На выход json с названием
@@ -49,16 +84,6 @@ public class ProjectController {
         projectService.member(project.getId(), request.getCreatorId());
         projectService.updateRole(project.getId(), request.getCreatorId(), "CREATOR");
         return new ResponseEntity<>(project, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/get-open-tasks-of-project/{id}")
-    public ResponseEntity<List<Task>> getOpen(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getOpenTasksOfProject(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/get-closed-tasks-of-project/{id}")
-    public ResponseEntity<List<Task>> getClosed(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getClosedTasksOfProject(id), HttpStatus.OK);
     }
 
     //Создание связи между проектом и таском
@@ -85,7 +110,7 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/assignAdmin")
+    @PutMapping("/assignAdmin")
     public ResponseEntity<ProjectPersonResponseDTO> assignAdmin(@RequestBody ProjectPersonRequestDTO request){
         ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(request.getProjectId(), request.getPersonId(), "ADMIN");
 
@@ -94,7 +119,7 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/assignContributor")
+    @PutMapping("/assignContributor")
     public ResponseEntity<ProjectPersonResponseDTO> assignContributor(@RequestBody ProjectPersonRequestDTO request){
         ProjectPersonQueryResult projectPersonQueryResult = projectService.updateRole(request.getProjectId(), request.getPersonId(), "CONTRIBUTOR");
 
@@ -103,27 +128,4 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/tasks-of-project/{id}")
-    public ResponseEntity<List<Task>> getProjectTasksPrID(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getProjectTasksPrID(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/members-of-project/{id}")
-    public ResponseEntity<List<Person>> getProjectPeoplePrID(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getProjectPeoplePrID(id), HttpStatus.OK);
-    }
-    @GetMapping("/creator-of-project/{id}")
-    public ResponseEntity<List<Person>> getProjectCreatorById(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CREATOR"), HttpStatus.OK);
-    }
-
-    @GetMapping("/admins-of-project/{id}")
-    public ResponseEntity<List<Person>> getProjectAdminsById(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "ADMIN"), HttpStatus.OK);
-    }
-
-    @GetMapping("/contributors-of-project/{id}")
-    public ResponseEntity<List<Person>> getProjectContributorsById(@PathVariable Long id){
-        return new ResponseEntity<>(projectService.getProjectPeopleByIDAndRole(id, "CONTRIBUTOR"), HttpStatus.OK);
-    }
 }
