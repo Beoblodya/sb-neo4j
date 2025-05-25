@@ -36,11 +36,8 @@ public class ProjectService {
     }
 
     public Project createProject(Long creatorId, String title){
-        List<Project> creatorsProjects = getProjectsByPersonId(creatorId);
-        for (Project project : creatorsProjects){
-            if (project.getTitle().equals(title))
-                throw new IllegalStateException("Project with title '"+title+"' has already been created");
-        }
+        if (projectRepository.personIsCreatorOfProject(creatorId,title))
+            throw new IllegalStateException("Project '"+title+"' is already created by person-id:"+creatorId);
         Project project = new Project();
         project.setTitle(title);
         projectRepository.save(project);
