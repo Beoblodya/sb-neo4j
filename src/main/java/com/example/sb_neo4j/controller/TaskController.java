@@ -92,4 +92,9 @@ public class TaskController {
                 HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);
 
     }
+
+    @DeleteMapping("/delete")
+    public void deleteTaskById(@PathVariable Long id){
+        taskService.deleteTaskById(id);
+    }
 }
