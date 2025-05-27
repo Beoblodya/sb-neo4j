@@ -33,7 +33,7 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
     @Query("MATCH (pe:Person) WHERE id(pe)=$personId DETACH DELETE pe")
     void deletePersonById(Long personId);
 
-    @Query("MATCH (p:Person)-[r:ASSIGNED]->(t:Task) WHERE id(p) = $personId AND id(p) = $taskId DELETE r")
+    @Query("MATCH (p:Person)-[r:ASSIGNED]->(t:Task) WHERE id(p) = $personId AND id(p) = $taskId DELETE r SET t.status='open'")
     void dropTask(Long personId, Long taskId);
 
     @Query("MATCH (pe:Person)-[r:MEMBER]-(pr:Project) WHERE id(pe)=$personId AND id(pr)=$projectId DELETE r")

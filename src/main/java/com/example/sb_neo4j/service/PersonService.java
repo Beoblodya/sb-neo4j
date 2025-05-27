@@ -66,7 +66,7 @@ public class PersonService {
 
     public void deleteSelf(Long personId){
         if (!personRepository.getProjectsByPersonId(personId).isEmpty())
-            throw new IllegalStateException("Person-id:"+personId+" cannot be deleted because he is the CREATOR");
+            throw new IllegalStateException("Person-id:"+personId+" is still a part of project");
         personRepository.deletePersonById(personId);
     }
 
@@ -76,7 +76,7 @@ public class PersonService {
 
     public void dropFromProject(Long personId, Long projectId, Long issuerId){
         if (projectRepository.personIsCreatorOfProject(personId, projectId)) {
-            throw new IllegalStateException("Deletion of person-id:" + personId + " by person-id:" + issuerId + " is not allowed");
+            throw new IllegalStateException("Person-id:"+personId+" cannot be deleted because he is the CREATOR");
         }
 
         if (!personRepository.isPersonOpInProject(issuerId, projectId) && !issuerId.equals(personId)) {

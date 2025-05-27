@@ -7,6 +7,7 @@ import com.example.sb_neo4j.model.Person;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,13 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    //Получение всех тасков
+    @Operation(summary = "Получение всех тасков")
     @GetMapping("/getAll")
     public ResponseEntity<List<Task>> getAllTask(){
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Получение ответственного за задачу")
     @GetMapping("/get-responsible-for-task/{id}")
     public ResponseEntity<List<Person>> getPersonByTaskId(@PathVariable Long id){
         List<Person> people = taskService.getPersonByTaskId(id);
@@ -41,15 +43,13 @@ public class TaskController {
                     HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
-    //Получение таска по id
+    @Operation(summary = "Получение таска по id")
     @GetMapping("/get-task/{id}")
     public ResponseEntity<Task> getById(@PathVariable Long id){
         return new ResponseEntity<>(taskService.getById(id), HttpStatus.OK);
     }
 
-    //Создание таска в базе
-    //На вход json с названием
-    //На выход json с названием
+    @Operation(summary = "Создание таска в базе")
     @PostMapping("/create")
     public ResponseEntity<Task> taskCreate(@RequestBody CreateTaskRequest request){
         Task task = taskService.createTask(request);
@@ -57,10 +57,8 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
-    //Создание связи между таском и участником
-    //На вход json с именем участника и названием таска
-    //На выход json с именем участник и названием таска
     @PostMapping("/assign")
+    @Operation(summary = "Создание связи между таском и участником")
     public ResponseEntity<TaskAssignmentResponseDTO> assign(@RequestBody TaskAssignmentRequestDTO request){
         TaskQueryResult taskQueryResult = taskService.assign(request.getPersonId(), request.getTaskId());
 
@@ -69,10 +67,8 @@ public class TaskController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //Создание связи между таском и участником с помощью ии
-    //На вход json с именем участника и названием таска
-    //На выход json с именем участник и названием таска
     @PostMapping("/generated")
+    @Operation(summary = "Создание связи между таском и участником с помощью ии")
     public ResponseEntity<TaskAssignmentResponseDTO> generated(@RequestBody TaskAssignmentRequestDTO request){
         TaskQueryResult taskQueryResult = taskService.generated(request.getPersonId(), request.getTaskId());
 
@@ -82,6 +78,7 @@ public class TaskController {
     }
 
     @PutMapping("/close")
+    @Operation(summary = "Закрытие задачи пользователем")
     public ResponseEntity<ChangeTaskStatusDTO> closeTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.closeTask(dto.getTaskId(), dto.getIssuerId())?
@@ -90,6 +87,7 @@ public class TaskController {
     }
 
     @PutMapping("/open")
+    @Operation(summary = "Открытие задачи пользователем")
     public ResponseEntity<ChangeTaskStatusDTO> openTask(@RequestBody ChangeTaskStatusDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.openTask(dto.getTaskId(), dto.getIssuerId())?
@@ -98,6 +96,7 @@ public class TaskController {
     }
 
     @PutMapping("/changeTitle")
+    @Operation(summary = "Изменение названия задачи пользователем")
     public ResponseEntity<ChangeTaskDTO> changeTaskTitle(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskTitle(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
@@ -105,6 +104,7 @@ public class TaskController {
     }
 
     @PutMapping("/changeContent")
+    @Operation(summary = "Изменение описания задачи пользователем")
     public ResponseEntity<ChangeTaskDTO> changeTaskContent(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskContent(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
@@ -112,6 +112,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Удаление задачи пользователем")
     public ResponseEntity<TaskAssignmentRequestDTO> deleteTaskById(@RequestBody TaskAssignmentRequestDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.deleteTaskById(dto.getTaskId(), dto.getPersonId())?

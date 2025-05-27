@@ -4,6 +4,7 @@ import com.example.sb_neo4j.dto.AIResponseDTO;
 import com.example.sb_neo4j.service.AIService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,11 @@ public class AIController {
     public AIController(AIService aiService) {
         this.aiService = aiService;
     }
-    //мнение нейронки по связи задачи с исполнителем
+    //
     // вход - автоматический забор данных с бд
     // выход json {"assignments":  [ {"name": "<NAME>", "title": "<TITLE>"} ] }
     // name - имя исполнителя, title - название задачи
+    @Operation(summary = "Мнение нейронки по связи задачи с исполнителем")
     @GetMapping("/relations")
     public Mono<ResponseEntity<AIResponseDTO>> aiAdvice(){
         return aiService.executeQuery()

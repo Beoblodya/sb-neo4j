@@ -6,6 +6,7 @@ import com.example.sb_neo4j.model.Project;
 import com.example.sb_neo4j.model.Task;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import com.example.sb_neo4j.service.PersonService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apiguardian.api.API;
@@ -29,8 +30,8 @@ public class PersonController {
         this.personService = personService;;
     }
 
-    //Получение всех участников команды из базы
     @GetMapping("/getAll")
+    @Operation(summary = "Получение всех пользователей из базы")
     public ResponseEntity<List<Person>> personIndex(){
         List<Person> people = personService.getAllPerson();
         return new ResponseEntity<>(people,
@@ -40,12 +41,13 @@ public class PersonController {
 
     //Получение участника команды по id
     @GetMapping("/get-person/{id}")
+    @Operation(summary = "Получение участника команды по id")
     public ResponseEntity<Person> getById(@PathVariable Long id){
         return new ResponseEntity<>(personService.getById(id), HttpStatus.OK);
     }
 
-    //Поучение проектов по id участника команды
     @GetMapping("/projects-of-person/{id}")
+    @Operation(summary = "Поучение проектов по id участника команды")
     public ResponseEntity<List<Project>> getProjectsByPersonId(@PathVariable Long id){
         List<Project> projects = personService.getProjectsByPersonId(id);
         return new ResponseEntity<>(projects,
@@ -53,8 +55,8 @@ public class PersonController {
                         HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
-    //Получение тасков по id участника команды
     @GetMapping("/tasks-of-person/{id}")
+    @Operation(summary = "Получение тасков по id участника команды")
     public ResponseEntity<List<Task>> getTasksByPersonId(@PathVariable Long id){
         List<Task> tasks = personService.getTasksByPersonId(id);
         return new ResponseEntity<>(tasks,
@@ -63,14 +65,13 @@ public class PersonController {
     }
 
     @GetMapping("/get-person-by-name/{name}")
+    @Operation(summary = "Получение пользователя по имени")
     public ResponseEntity<List<Person>> getPersonByName(@PathVariable String name){
         return new ResponseEntity<>(personService.getPersonByName(name), HttpStatus.OK);
     }
 
-    //Создание участника команды в базе
-    //На вход json с именем
-    //На выход json с именем
     @PostMapping("/create")
+    @Operation(summary = "Создание пользователя")
     public ResponseEntity<Person> personCreate(@RequestBody CreatePersonRequestOrDTO request){
         Person person = personService.createPerson(request);
 
@@ -78,16 +79,19 @@ public class PersonController {
     }
 
     @PutMapping("/changeName")
+    @Operation(summary = "Изменение имени пользователя")
     public ResponseEntity<Person> changeName(@RequestBody PersonNewNameDTO request){
         return new ResponseEntity<>(personService.changeName(request.getPersonId(), request.getNewName()), HttpStatus.OK);
     }
 
     //Обновление скиллов(замена массива)
     @PutMapping("/updateSkillSetById")
+    @Operation(summary = "Изменение скилов пользователя")
     public ResponseEntity<Person> updateSkillSet(@RequestBody PersonSkillsDTO request){
         return new ResponseEntity<>(personService.updateSkillSet(request.getPersonId(), request.getPersonSkillSet()), HttpStatus.OK);
     }
 
+    @Operation(summary = "Удаление задачи пользователя из базы (не использовать, замена в TaskController)")
     @DeleteMapping("/dropTask")
     public ResponseEntity<TaskAssignmentRequestDTO> dropTask(@RequestBody TaskAssignmentRequestDTO requestDTO){
         personService.dropTask(requestDTO.getPersonId(), requestDTO.getTaskId());
@@ -95,11 +99,13 @@ public class PersonController {
     }
 
     @DeleteMapping("/deleteSelf/{personId}")
+    @Operation(summary = "Удаление пользователя из базы")
     public ResponseEntity<String> deleteSelf(@PathVariable Long personId){
         personService.deleteSelf(personId);
         return new ResponseEntity<>("Person-id:"+personId+" has been deleted from database", HttpStatus.OK);    }
 
     @DeleteMapping("/dropProject")
+    @Operation(summary = "Удаление пользователя из проекта админом/создателем")
     public ResponseEntity<DropFromProject> dropPersonFromProject(@RequestBody DropFromProject dto){
         personService.dropFromProject(dto.getNodeId(), dto.getProjectId(), dto.getIssuerId());
         return new ResponseEntity<>(dto, HttpStatus.OK);
