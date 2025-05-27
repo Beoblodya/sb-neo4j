@@ -31,7 +31,7 @@ public class TaskService {
         Task task = new Task();
         task.setContent(createTaskRequest.getContent());
         task.setTitle(createTaskRequest.getTitle());
-        task.setStatus(createTaskRequest.getStatus());
+        task.setStatus("open");
         taskRepository.save(task);
         return task;
     }
