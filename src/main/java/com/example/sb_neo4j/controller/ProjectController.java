@@ -61,6 +61,14 @@ public class ProjectController {
                     HttpStatus.NO_CONTENT : HttpStatus.FOUND);
     }
 
+    @GetMapping("/get-in-progress-tasks-of-project/{id}")
+    public ResponseEntity<List<Task>> getInProgress(@PathVariable Long id){
+        List<Task> tasks = projectService.getInProgressTasksOfProject(id);
+        return new ResponseEntity<>(tasks,
+                tasks.isEmpty()?
+                        HttpStatus.NO_CONTENT : HttpStatus.FOUND);
+    }
+
     @GetMapping("/tasks-of-project/{id}")
     public ResponseEntity<List<Task>> getProjectTasksPrID(@PathVariable Long id){
         List<Task> tasks = projectService.getProjectTasksPrID(id);

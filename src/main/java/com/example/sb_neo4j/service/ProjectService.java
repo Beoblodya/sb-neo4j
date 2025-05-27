@@ -39,6 +39,12 @@ public class ProjectService {
         return taskRepository.findAllById(tasksIds);
     }
 
+    public List<Task> getInProgressTasksOfProject(Long projectId){
+        List<Long> tasksIds =  projectRepository.getInProgressTasksOfProject(projectId)
+                .orElseThrow(() -> new NoSuchElementException("No closed tasks in project-:id"+projectId));
+        return taskRepository.findAllById(tasksIds);
+    }
+
     private List<Project> getProjectsByPersonId(Long personId){
         List<Long> projectIds = personRepository.getProjectsByPersonId(personId);
         return projectRepository.findAllById(projectIds);
