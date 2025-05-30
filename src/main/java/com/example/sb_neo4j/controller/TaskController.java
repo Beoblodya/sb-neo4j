@@ -75,7 +75,7 @@ public class TaskController {
     }
 
     @PutMapping("/close")
-    @Operation(summary = "Закрытие задачи пользователем")
+    @Operation(summary = "Закрытие задачи")
     public ResponseEntity<TaskIdDTO> closeTask(@RequestBody TaskIdDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.closeTask(dto.getTaskId())?
@@ -84,7 +84,7 @@ public class TaskController {
     }
 
     @PutMapping("/open")
-    @Operation(summary = "Открытие задачи пользователем")
+    @Operation(summary = "Открытие задачи")
     public ResponseEntity<TaskIdDTO> openTask(@RequestBody TaskIdDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.openTask(dto.getTaskId())?
@@ -93,7 +93,7 @@ public class TaskController {
     }
 
     @PutMapping("/changeTitle")
-    @Operation(summary = "Изменение названия задачи пользователем")
+    @Operation(summary = "Изменение названия задачи")
     public ResponseEntity<ChangeTaskDTO> changeTaskTitle(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskTitle(dto.getTaskId(), dto.getNewParam())?
@@ -101,7 +101,7 @@ public class TaskController {
     }
 
     @PutMapping("/changeContent")
-    @Operation(summary = "Изменение описания задачи пользователем")
+    @Operation(summary = "Изменение описания задачи")
     public ResponseEntity<ChangeTaskDTO> changeTaskContent(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
                 taskService.changeTaskContent(dto.getTaskId(), dto.getNewParam())?
@@ -109,7 +109,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete-by-id/{id}")
-    @Operation(summary = "Удаление задачи пользователем")
+    @Operation(summary = "Удаление задачи")
     public ResponseEntity<TaskIdDTO> deleteTaskById(@PathVariable Long id){
         return new ResponseEntity<>(new TaskIdDTO(id),
                 taskService.deleteTaskById(id)?
