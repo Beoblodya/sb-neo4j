@@ -14,7 +14,7 @@ public interface TaskRepository extends Neo4jRepository<Task, Long> {
     @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.status='closed'")
     void closeTask(Long taskId);
 
-    @Query("MATCH (t:Task) WHERE id(t)=$taskId SET t.status='open'")
+    @Query("MATCH (t:Task)-[r:ASSIGNED]-(p:Person) WHERE id(t)=$taskId SET t.status='open' DELETE r")
     void openTask(Long taskId);
 
     @Query("MATCH (person:Person), (task:Task) WHERE id(person) = $personId AND id(task) = $taskId " +

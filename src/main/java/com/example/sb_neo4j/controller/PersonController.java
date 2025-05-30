@@ -104,7 +104,7 @@ public class PersonController {
         personService.deleteSelf(personId);
         return new ResponseEntity<>("Person-id:"+personId+" has been deleted from database", HttpStatus.OK);    }
 
-    @DeleteMapping("/leave-project")
+    @PutMapping("/leave-project")
     @Operation(summary = "Удаление пользователя из проекта")
     public ResponseEntity<ProjectPersonRequestDTO> dropPersonFromProject(@RequestBody ProjectPersonRequestDTO dto){
         personService.dropFromProject(dto.getPersonId(), dto.getProjectId());
