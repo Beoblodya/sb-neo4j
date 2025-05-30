@@ -112,9 +112,9 @@ public class ProjectService {
                 .orElseThrow(() -> new NoSuchElementException("Title was not changed. Person id: "+projectId));
     }
 
-    public boolean deleteProjectById(Long projectId, Long issuerId){
-        if (!projectRepository.personIsCreatorOfProject(issuerId, projectId))
-            return false;
+    public boolean deleteProjectById(Long projectId){
+        projectRepository.findById(projectId)
+                .orElseThrow(() -> new NoSuchElementException("Project-id:"+projectId+" is not found"));
         List<Long> tasksIds = projectRepository.getProjectTasksPID(projectId);
         for (Long taskId : tasksIds){
             taskRepository.deleteTaskById(taskId);

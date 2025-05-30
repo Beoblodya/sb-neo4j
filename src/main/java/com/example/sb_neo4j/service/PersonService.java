@@ -74,13 +74,9 @@ public class PersonService {
         personRepository.dropTask(personId, taskId);
     }
 
-    public void dropFromProject(Long personId, Long projectId, Long issuerId){
+    public void dropFromProject(Long personId, Long projectId){
         if (projectRepository.personIsCreatorOfProject(personId, projectId)) {
             throw new IllegalStateException("Person-id:"+personId+" cannot be deleted because he is the CREATOR");
-        }
-
-        if (!personRepository.isPersonOpInProject(issuerId, projectId) && !issuerId.equals(personId)) {
-            throw new IllegalStateException("Deletion of person-id:" + personId + " by person-id:" + issuerId + " is not allowed");
         }
 
         personRepository.dropFromProject(personId, projectId);

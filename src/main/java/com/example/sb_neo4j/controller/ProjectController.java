@@ -174,11 +174,11 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete-by-id/{id}")
     @Operation(summary = "Удаление проекта создателем")
-    public ResponseEntity<ProjectPersonRequestDTO> deleteProject (@RequestBody ProjectPersonRequestDTO dto){
-        return new ResponseEntity<>(dto,
-                projectService.deleteProjectById(dto.getProjectId(), dto.getPersonId())?
-                HttpStatus.OK : HttpStatus.FORBIDDEN);
+    public ResponseEntity<ProjectIdDTO> deleteProject (@PathVariable Long id){
+        return new ResponseEntity<>(new ProjectIdDTO(id),
+                projectService.deleteProjectById(id)?
+                HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

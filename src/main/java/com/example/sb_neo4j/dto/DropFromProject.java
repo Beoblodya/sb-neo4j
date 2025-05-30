@@ -8,5 +8,4 @@ import lombok.Getter;
 public class DropFromProject {
     private final Long projectId;
     private final Long nodeId;
-    private final Long issuerId;
 }

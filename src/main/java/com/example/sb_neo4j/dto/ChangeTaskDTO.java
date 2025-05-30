@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class ChangeTaskDTO {
     private final Long taskId;
-    private final Long issuerId;
     String newParam;
 }

@@ -104,10 +104,10 @@ public class PersonController {
         personService.deleteSelf(personId);
         return new ResponseEntity<>("Person-id:"+personId+" has been deleted from database", HttpStatus.OK);    }
 
-    @DeleteMapping("/dropProject")
-    @Operation(summary = "Удаление пользователя из проекта админом/создателем")
-    public ResponseEntity<DropFromProject> dropPersonFromProject(@RequestBody DropFromProject dto){
-        personService.dropFromProject(dto.getNodeId(), dto.getProjectId(), dto.getIssuerId());
+    @DeleteMapping("/leave-project")
+    @Operation(summary = "Удаление пользователя из проекта")
+    public ResponseEntity<ProjectPersonRequestDTO> dropPersonFromProject(@RequestBody ProjectPersonRequestDTO dto){
+        personService.dropFromProject(dto.getPersonId(), dto.getProjectId());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

@@ -59,34 +59,30 @@ public class TaskService {
     }
 
 
-    public boolean closeTask(Long taskId, Long issuerId){
-        if (!taskRepository.areRelated(taskId, issuerId))
-            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
-                return false;
+    public boolean closeTask(Long taskId){
+        taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task-id:"+taskId+" is not found"));
         taskRepository.closeTask(taskId);
         return true;
     }
 
-    public boolean openTask(Long taskId, Long issuerId){
-        if (!taskRepository.areRelated(taskId, issuerId))
-            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
-                return false;
+    public boolean openTask(Long taskId){
+        taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task-id:"+taskId+" is not found"));
         taskRepository.openTask(taskId);
         return true;
     }
 
-    public boolean changeTaskTitle(Long taskId, Long issuerId, String title){
-        if (!taskRepository.areRelated(taskId, issuerId))
-            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
-                return false;
+    public boolean changeTaskTitle(Long taskId, String title){
+        taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task-id:"+taskId+" is not found"));
         taskRepository.changeTaskTitle(taskId, title);
         return true;
     }
 
-    public boolean changeTaskContent(Long taskId, Long issuerId, String content){
-        if (!taskRepository.areRelated(taskId, issuerId))
-            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
-                return false;
+    public boolean changeTaskContent(Long taskId, String content){
+        taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task-id:"+taskId+" is not found"));
         taskRepository.changeTaskContent(taskId, content);
         return true;
     }
@@ -96,10 +92,9 @@ public class TaskService {
         return personRepository.findAllById(personIds);
     }
 
-    public boolean deleteTaskById(Long taskId, Long issuerId){
-            if (!personRepository.isPersonOpInProject(issuerId, taskRepository.getProjectByTaskId(taskId)))
-                if (!taskRepository.areRelated(taskId, issuerId))
-                    return false;
+    public boolean deleteTaskById(Long taskId){
+        taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException("Task-id:"+taskId+" is not found"));
         taskRepository.deleteTaskById(taskId);
         return true;
     }

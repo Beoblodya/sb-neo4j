@@ -79,18 +79,18 @@ public class TaskController {
 
     @PutMapping("/close")
     @Operation(summary = "Закрытие задачи пользователем")
-    public ResponseEntity<ChangeTaskStatusDTO> closeTask(@RequestBody ChangeTaskStatusDTO dto){
+    public ResponseEntity<TaskIdDTO> closeTask(@RequestBody TaskIdDTO dto){
         return new ResponseEntity<>(dto,
-                taskService.closeTask(dto.getTaskId(), dto.getIssuerId())?
+                taskService.closeTask(dto.getTaskId())?
                 HttpStatus.OK : HttpStatus.FORBIDDEN);
 
     }
 
     @PutMapping("/open")
     @Operation(summary = "Открытие задачи пользователем")
-    public ResponseEntity<ChangeTaskStatusDTO> openTask(@RequestBody ChangeTaskStatusDTO dto){
+    public ResponseEntity<TaskIdDTO> openTask(@RequestBody TaskIdDTO dto){
         return new ResponseEntity<>(dto,
-                taskService.openTask(dto.getTaskId(), dto.getIssuerId())?
+                taskService.openTask(dto.getTaskId())?
                 HttpStatus.OK : HttpStatus.FORBIDDEN);
 
     }
@@ -99,7 +99,7 @@ public class TaskController {
     @Operation(summary = "Изменение названия задачи пользователем")
     public ResponseEntity<ChangeTaskDTO> changeTaskTitle(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
-                taskService.changeTaskTitle(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
+                taskService.changeTaskTitle(dto.getTaskId(), dto.getNewParam())?
                         HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
@@ -107,15 +107,15 @@ public class TaskController {
     @Operation(summary = "Изменение описания задачи пользователем")
     public ResponseEntity<ChangeTaskDTO> changeTaskContent(@RequestBody ChangeTaskDTO dto){
         return new ResponseEntity<>(dto,
-                taskService.changeTaskContent(dto.getTaskId(), dto.getIssuerId(), dto.getNewParam())?
+                taskService.changeTaskContent(dto.getTaskId(), dto.getNewParam())?
                         HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete-by-id/{id}")
     @Operation(summary = "Удаление задачи пользователем")
-    public ResponseEntity<TaskAssignmentRequestDTO> deleteTaskById(@RequestBody TaskAssignmentRequestDTO dto){
-        return new ResponseEntity<>(dto,
-                taskService.deleteTaskById(dto.getTaskId(), dto.getPersonId())?
+    public ResponseEntity<TaskIdDTO> deleteTaskById(@PathVariable Long id){
+        return new ResponseEntity<>(new TaskIdDTO(id),
+                taskService.deleteTaskById(id)?
                 HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 }
