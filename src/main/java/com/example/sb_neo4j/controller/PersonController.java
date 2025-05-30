@@ -9,26 +9,20 @@ import com.example.sb_neo4j.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Person")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/Person")
 public class PersonController {
     //Контроллер для участников команды
-    @Autowired
     private final PersonService personService;
-
-    public PersonController(PersonService personService){
-        this.personService = personService;;
-    }
 
     @GetMapping("/getAll")
     @Operation(summary = "Получение всех пользователей из базы")

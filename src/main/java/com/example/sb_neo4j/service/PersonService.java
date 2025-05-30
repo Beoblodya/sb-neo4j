@@ -9,13 +9,10 @@ import com.example.sb_neo4j.repository.ProjectRepository;
 import com.example.sb_neo4j.repository.TaskRepository;
 import com.example.sb_neo4j.request.CreatePersonRequestOrDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

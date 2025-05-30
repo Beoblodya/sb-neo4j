@@ -9,6 +9,7 @@ import com.example.sb_neo4j.request.CreateTaskRequest;
 import com.example.sb_neo4j.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +19,11 @@ import java.util.List;
 
 @Tag(name = "Task")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/Task")
 public class TaskController {
     //Контроллер для тасков
-    @Autowired
     private final TaskService taskService;
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
 
     @Operation(summary = "Получение всех тасков")
     @GetMapping("/getAll")

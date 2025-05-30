@@ -45,7 +45,7 @@ public class ProjectService {
         return taskRepository.findAllById(tasksIds);
     }
 
-    private List<Project> getProjectsByPersonId(Long personId){
+    public List<Project> getProjectsByPersonId(Long personId){
         List<Long> projectIds = personRepository.getProjectsByPersonId(personId);
         return projectRepository.findAllById(projectIds);
     }

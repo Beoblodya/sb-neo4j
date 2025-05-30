@@ -11,6 +11,7 @@ import com.example.sb_neo4j.request.CreateProjectRequest;
 import com.example.sb_neo4j.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,11 @@ import java.util.List;
 
 @Tag(name = "Project")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/Project")
 public class ProjectController {
     //Контроллер для проектов
-    @Autowired
     private final ProjectService projectService;
-
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
-    }
 
     @Operation(summary = "Получение всех проектов")
     @GetMapping("/getAll")
@@ -133,7 +130,7 @@ public class ProjectController {
     //На выход json с названием проекта и названием таска
     @PostMapping("/contains")
     @Operation(summary = "Привязка задачи к проекту")
-    public ResponseEntity<ProjectTaskResponseDTO> contains(@RequestBody ProjectTaskRequestDTO request) throws Exception {
+    public ResponseEntity<ProjectTaskResponseDTO> contains(@RequestBody ProjectTaskRequestDTO request) {
         ProjectTaskQueryResult projectTaskQueryResult = projectService.contains(request.getProjectId(), request.getTaskId());
 
         ProjectTaskResponseDTO response = new ProjectTaskResponseDTO(projectTaskQueryResult.getProject().getId(),
@@ -175,7 +172,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/delete-by-id/{id}")
-    @Operation(summary = "Удаление проекта создателем")
+    @Operation(summary = "Удаление проекта")
     public ResponseEntity<ProjectIdDTO> deleteProject (@PathVariable Long id){
         return new ResponseEntity<>(new ProjectIdDTO(id),
                 projectService.deleteProjectById(id)?
